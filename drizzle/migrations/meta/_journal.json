@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1789892334372,
+      "tag": "0000_jiya_fit_buddy_schema",
+      "breakpoints": true
+    }
+  ]
 }
