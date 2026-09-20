@@ -1,24 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+// The app itself is plain HTML/CSS/JavaScript inside the `public/` folder.
+// This route only forwards "/" to the real landing page (public/index.html).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Jiya Fit Buddy - Your AI Fitness Trainer" },
+      {
+        name: "description",
+        content:
+          "Personalised workout plans, step/water/sleep tracking and an AI fitness coach.",
+      },
+      { property: "og:title", content: "Jiya Fit Buddy - Your AI Fitness Trainer" },
+      {
+        property: "og:description",
+        content:
+          "Personalised workout plans, step/water/sleep tracking and an AI fitness coach.",
+      },
+    ],
+  }),
+  component: Redirecting,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Redirecting() {
+  useEffect(() => {
+    window.location.replace("/index.html");
+  }, []);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <p className="text-sm text-muted-foreground">Loading Jiya Fit Buddy…</p>
     </div>
   );
 }

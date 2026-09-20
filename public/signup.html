@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="brand-mark">J</span>
+        <span class="brand-text" style="font-size: 17px">Jiya <b>Fit Buddy</b></span>
+      </div>
+      <h2 class="auth-title">Create your account</h2>
+      <p class="auth-sub">It takes less than a minute</p>
+
+      <form id="signupForm">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" required placeholder="Jiya Sharma" />
+        </div>
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" required placeholder="jiya_fit" />
+          <p class="small muted" id="usernameHint">Letters, numbers and underscore only.</p>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="6" placeholder="At least 6 characters" />
+        </div>
+        <button class="btn btn-primary btn-block" id="signupButton" type="submit">Create account</button>
+      </form>
+
+      <div id="message" class="auth-message hidden"></div>
+
+      <p class="auth-footer">
+        Already have an account? <a href="login.html">Log in</a>
+      </p>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+  </body>
+</html>

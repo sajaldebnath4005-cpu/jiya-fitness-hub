@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="loading" class="loading">Loading your dashboard...</div>
+
+      <div id="content" class="hidden stack">
+        <!-- greeting -->
+        <div>
+          <p class="hello" id="greeting">Hello</p>
+          <h1 id="userName">Athlete</h1>
+          <div class="row wrap">
+            <span class="pill pill-primary" id="goalPill">Goal</span>
+            <span class="pill" id="levelPill">Level</span>
+            <span class="pill" id="streakPill">🔥 0 day streak</span>
+          </div>
+        </div>
+
+        <!-- today's workout -->
+        <div class="card hero-card stack">
+          <div class="row-between">
+            <div>
+              <p class="stat-label">Today's workout</p>
+              <h2 id="workoutName">Rest day</h2>
+              <p class="muted small" id="workoutMeta"></p>
+            </div>
+            <div class="ring">
+              <div class="ring-inner">
+                <span class="stat-value" id="workoutPercent">0%</span>
+                <span class="small muted">done</span>
+              </div>
+            </div>
+          </div>
+          <div class="progress"><div class="progress-bar" id="workoutBar" style="width: 0%"></div></div>
+          <a class="btn btn-primary" href="workout.html" id="workoutButton">Start workout</a>
+        </div>
+
+        <!-- calories -->
+        <div class="grid grid-2">
+          <div class="card metric-card">
+            <div class="metric-top">
+              <span class="stat-label">Calories burned today</span>
+              <span class="metric-icon">🔥</span>
+            </div>
+            <span class="stat-value" id="caloriesBurned">0</span>
+            <p class="small muted" id="caloriesTargetText">Daily target: -</p>
+          </div>
+          <div class="card metric-card">
+            <div class="metric-top">
+              <span class="stat-label">Weight progress</span>
+              <span class="metric-icon">⚖️</span>
+            </div>
+            <span class="stat-value" id="weightNow">- kg</span>
+            <div class="progress"><div class="progress-bar" id="weightBar" style="width: 0%"></div></div>
+            <p class="small muted" id="weightText"></p>
+          </div>
+        </div>
+
+        <!-- daily trackers -->
+        <div class="grid grid-4">
+          <a class="card metric-card card-hover" href="steps.html" style="color: inherit">
+            <div class="metric-top">
+              <span class="stat-label">Steps</span><span class="metric-icon">👟</span>
+            </div>
+            <span class="stat-value" id="stepsValue">0</span>
+            <div class="progress"><div class="progress-bar" id="stepsBar" style="width: 0%"></div></div>
+          </a>
+          <a class="card metric-card card-hover" href="water.html" style="color: inherit">
+            <div class="metric-top">
+              <span class="stat-label">Water</span><span class="metric-icon">💧</span>
+            </div>
+            <span class="stat-value" id="waterValue">0 ml</span>
+            <div class="progress"><div class="progress-bar" id="waterBar" style="width: 0%"></div></div>
+          </a>
+          <a class="card metric-card card-hover" href="sleep.html" style="color: inherit">
+            <div class="metric-top">
+              <span class="stat-label">Sleep</span><span class="metric-icon">😴</span>
+            </div>
+            <span class="stat-value" id="sleepValue">- h</span>
+            <div class="progress"><div class="progress-bar" id="sleepBar" style="width: 0%"></div></div>
+          </a>
+          <a class="card metric-card card-hover" href="profile.html" style="color: inherit">
+            <div class="metric-top">
+              <span class="stat-label">XP</span><span class="metric-icon">⭐</span>
+            </div>
+            <span class="stat-value" id="xpValue">0</span>
+            <div class="progress"><div class="progress-bar" id="xpBar" style="width: 0%"></div></div>
+          </a>
+        </div>
+
+        <!-- AI coach -->
+        <div class="coach-banner">
+          <div class="coach-avatar">🤖</div>
+          <div style="flex: 1">
+            <h3 style="margin: 0">Ask Coach Jiya</h3>
+            <p class="small muted" style="margin: 4px 0 0">
+              Questions about your plan, food or recovery? Jiya knows your goal.
+            </p>
+          </div>
+          <a class="btn btn-outline btn-small" href="ai-coach.html">Chat</a>
+        </div>
+
+        <!-- quick actions -->
+        <div class="section-title"><h2>Quick actions</h2></div>
+        <div class="quick-actions">
+          <a class="quick-action" href="water.html"><span>💧</span>Add water</a>
+          <a class="quick-action" href="steps.html"><span>👟</span>Track steps</a>
+          <a class="quick-action" href="sleep.html"><span>😴</span>Log sleep</a>
+          <a class="quick-action" href="progress.html"><span>⚖️</span>Log weight</a>
+          <a class="quick-action" href="nutrition.html"><span>🍎</span>Check food</a>
+          <a class="quick-action" href="exercises.html"><span>📚</span>Exercises</a>
+          <a class="quick-action" href="leaderboard.html"><span>🏆</span>Leaderboard</a>
+          <a class="quick-action" href="notifications.html"><span>🔔</span>Alerts</a>
+        </div>
+
+        <!-- today's exercises -->
+        <div class="section-title">
+          <h2>Today's exercises</h2>
+          <a class="small" href="workout.html">See full plan</a>
+        </div>
+        <div class="card" id="exerciseList"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,396 @@
+/* ===============================================
+   Jiya Fit Buddy - main stylesheet (design system)
+   Dark athletic theme with a lime green accent.
+   =============================================== */
+
+:root {
+  --background: #0d1b14;
+  --surface: #14251d;
+  --surface-alt: #16302a;
+  --border: #223b31;
+  --text: #ffffff;
+  --text-muted: #c9d1cd;
+  --primary: #aeea00;
+  --primary-dark: #93c700;
+  --primary-text: #0d1b14;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --radius: 18px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --glow: 0 0 24px rgba(174, 234, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding-bottom: 90px;
+}
+
+h1, h2, h3 {
+  margin: 0 0 10px 0;
+  letter-spacing: -0.4px;
+}
+
+h1 { font-size: 30px; }
+h2 { font-size: 22px; }
+h3 { font-size: 17px; }
+
+p { line-height: 1.6; }
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.hidden { display: none !important; }
+.muted { color: var(--text-muted); }
+.small { font-size: 13px; }
+.center { text-align: center; }
+.lime { color: var(--primary); }
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 18px;
+}
+
+/* ---------- header and navigation ---------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 17px;
+}
+.brand:hover { text-decoration: none; }
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.brand-text b { color: var(--primary); }
+
+.top-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.nav-link:hover {
+  background-color: var(--surface-alt);
+  color: var(--text);
+  text-decoration: none;
+}
+.nav-link.active {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  font-weight: 600;
+}
+.nav-icon { font-size: 15px; }
+
+.icon-button {
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.icon-button:hover { border-color: var(--primary); }
+
+.drawer {
+  position: fixed;
+  right: 14px;
+  top: 70px;
+  width: 220px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  z-index: 40;
+  box-shadow: var(--shadow);
+}
+.drawer-title {
+  margin: 4px 8px 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.drawer .nav-link { width: 100%; }
+.drawer .btn { width: 100%; margin-top: 8px; }
+
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 8px 6px;
+  z-index: 30;
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.card-hover:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wrap { flex-wrap: wrap; }
+.stack > * + * { margin-top: 14px; }
+
+.pill {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.pill-primary {
+  background-color: rgba(174, 234, 0, 0.14);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+}
+.stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s, border-color 0.2s;
+}
+.btn:hover { transform: translateY(-1px); text-decoration: none; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  box-shadow: var(--glow);
+}
+.btn-primary:hover { background-color: var(--primary-dark); }
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+.btn-ghost {
+  background-color: var(--surface-alt);
+  color: var(--text);
+}
+.btn-ghost:hover { color: var(--primary); }
+
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: var(--danger);
+  color: #ffb4b4;
+}
+
+.btn-block { width: 100%; }
+.btn-small { padding: 8px 12px; font-size: 13px; border-radius: 11px; }
+
+/* ---------- forms ---------- */
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.field { margin-bottom: 14px; }
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.chip {
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--primary); }
+.chip.selected {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-text);
+  font-weight: 600;
+}
+
+/* ---------- progress ---------- */
+
+.progress {
+  height: 10px;
+  width: 100%;
+  background-color: var(--surface-alt);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.ring {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--surface-alt);
+}
+.ring-inner {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- toast ---------- */
+
+.toast-box {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 60;
+}
+.toast {
+  padding: 12px 18px;
+  border-radius: 13px;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+}
+.toast-ok { background-color: var(--primary); color: var(--primary-text); }
+.toast-error { background-color: var(--danger); color: #fff; }
+
+/* ---------- loading ---------- */
+
+.loading {
+  padding: 30px;
+  text-align: center;
+  color: var(--text-muted);
+}

@@ -1,0 +1,97 @@
+/* ===============================================
+   Jiya Fit Buddy - dashboard and tracking pages
+   =============================================== */
+
+.hello {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.hero-card {
+  background-image: linear-gradient(135deg, rgba(174, 234, 0, 0.18), rgba(22, 48, 42, 0.5));
+  border: 1px solid var(--primary);
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-icon {
+  font-size: 22px;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quick-action {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+}
+.quick-action:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+}
+.quick-action span {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.coach-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.coach-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.exercise-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.exercise-item:last-child { border-bottom: none; }
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 0 12px;
+}
+
+@media (max-width: 720px) {
+  .quick-actions { grid-template-columns: repeat(2, 1fr); }
+}
