@@ -1,0 +1,32 @@
+/* ===============================================
+   Jiya Fit Buddy - responsive rules (mobile first)
+   =============================================== */
+
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .top-nav { display: none; }
+  .bottom-nav { display: flex; justify-content: space-around; }
+  .bottom-nav .nav-link {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  .icon-button { margin-left: auto; }
+  .brand-text { font-size: 15px; }
+
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+
+  h1 { font-size: 24px; }
+  .container { padding: 18px 14px; }
+  .hero-title { font-size: 32px !important; }
+}
+
+@media (max-width: 420px) {
+  .bottom-nav .nav-link span:not(.nav-icon) { display: none; }
+  .bottom-nav .nav-icon { font-size: 20px; }
+}
