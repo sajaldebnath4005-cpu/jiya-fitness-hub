@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jiya Fit Buddy - Your AI Fitness Trainer</title>
+    <meta name="description" content="Jiya Fit Buddy builds a personalised workout plan and tracks steps, water, sleep, weight and calories." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <section class="hero">
+      <div class="auth-logo">
+        <span class="brand-mark">J</span>
+        <span class="brand-text" style="font-size: 18px">Jiya <b>Fit Buddy</b></span>
+      </div>
+      <h1 class="hero-title">Train smarter with <span class="lime">Jiya</span></h1>
+      <p class="hero-text">
+        A personalised workout plan for your goal, plus simple tracking for steps, water,
+        sleep, weight and calories - and an AI coach that answers your fitness questions.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="signup.html">Get started free</a>
+        <a class="btn btn-outline" href="login.html">I already have an account</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="grid grid-3">
+        <div class="card card-hover">
+          <div class="feature-icon">🏋️</div>
+          <h3>Personalised plan</h3>
+          <p class="muted small">
+            Your plan is built from your goal, level, location and the equipment you own.
+            Missing equipment? Jiya swaps the exercise automatically.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon">📈</div>
+          <h3>Track everything</h3>
+          <p class="muted small">
+            Workouts, steps, water, sleep, weight and calories - all saved to your account
+            so your progress is always there.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon">🤖</div>
+          <h3>Coach Jiya</h3>
+          <p class="muted small">
+            Ask about your workout, nutrition, recovery or progress. Jiya answers using your
+            own goal and data.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon">👟</div>
+          <h3>Step counter</h3>
+          <p class="muted small">
+            Counts steps with your phone's motion sensor and shows distance, calories and
+            your daily goal.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon">🍎</div>
+          <h3>Nutrition lookup</h3>
+          <p class="muted small">
+            Type a product barcode to see calories, macros and the Nutri-Score grade.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon">🏆</div>
+          <h3>Friends and XP</h3>
+          <p class="muted small">
+            Earn XP, build streaks, unlock badges and compare with friends on the
+            leaderboard.
+          </p>
+        </div>
+      </div>
+
+      <p class="center muted small" style="margin-top: 30px">
+        Jiya Fit Buddy - BCA final year project
+      </p>
+    </div>
+
+    <script type="module">
+      // If the user is already logged in, go straight to the dashboard.
+      import { getCurrentUser } from "./js/supabase.js";
+      getCurrentUser().then(function (user) {
+        if (user) window.location.replace("dashboard.html");
+      });
+    </script>
+  </body>
+</html>
