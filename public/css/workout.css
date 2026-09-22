@@ -1,0 +1,148 @@
+/* ===============================================
+   Jiya Fit Buddy - workout, exercises and nutrition
+   =============================================== */
+
+.day-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.day-chip {
+  flex: 0 0 auto;
+  min-width: 96px;
+  text-align: center;
+  padding: 12px 10px;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+}
+.day-chip:hover { border-color: var(--primary); }
+.day-chip b { display: block; color: var(--text); font-size: 15px; margin-bottom: 4px; }
+.day-chip.active {
+  border-color: var(--primary);
+  background-color: rgba(174, 234, 0, 0.12);
+}
+.day-chip.active b { color: var(--primary); }
+
+.exercise-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.exercise-row:last-child { border-bottom: none; }
+.exercise-row.done { opacity: 0.55; }
+.exercise-row.done .exercise-name { text-decoration: line-through; }
+
+.exercise-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background-color: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex: 0 0 auto;
+}
+
+.exercise-main { flex: 1; min-width: 0; }
+.exercise-name { font-weight: 600; }
+
+.exercise-check {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* exercise library */
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+}
+
+.exercise-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+}
+.exercise-card:hover { border-color: var(--primary); }
+
+/* popup used for exercise details */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+  padding: 0;
+}
+.sheet {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 22px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+.sheet-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.info-box {
+  background-color: var(--surface-alt);
+  border-radius: 13px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* nutrition */
+
+.grade {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #08130d;
+  text-transform: uppercase;
+}
+.grade-a { background-color: #2ecc71; }
+.grade-b { background-color: #a8df3f; }
+.grade-c { background-color: #f4d03f; }
+.grade-d { background-color: #f0932b; }
+.grade-e { background-color: #eb4d4b; color: #fff; }
+.grade-unknown { background-color: var(--surface-alt); color: var(--text-muted); }
+
+@media (max-width: 720px) {
+  .filter-bar { grid-template-columns: 1fr; }
+  .info-grid { grid-template-columns: repeat(2, 1fr); }
+}
