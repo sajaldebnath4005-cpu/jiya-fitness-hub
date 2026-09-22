@@ -1,0 +1,70 @@
+/* ===============================================
+   Jiya Fit Buddy - progress, steps, water, sleep
+   =============================================== */
+
+.big-number {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.tracker-hero {
+  text-align: center;
+  background-image: linear-gradient(135deg, rgba(174, 234, 0, 0.16), rgba(22, 48, 42, 0.5));
+  border: 1px solid var(--primary);
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 160px;
+  padding-top: 10px;
+}
+.chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+}
+.chart-fill {
+  width: 100%;
+  background-color: var(--primary);
+  border-radius: 8px 8px 0 0;
+  min-height: 4px;
+  transition: height 0.4s ease;
+}
+.chart-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.list-row:last-child { border-bottom: none; }
+
+.badge-card {
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.badge-card.locked { opacity: 0.4; }
+.badge-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+
+.quick-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
