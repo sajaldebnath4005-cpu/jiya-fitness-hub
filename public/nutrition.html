@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workout.css" />
+    <link rel="stylesheet" href="css/progress.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div>
+        <h1>Nutrition</h1>
+        <p class="muted small">Your daily targets and a food checker by barcode number.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card metric-card">
+          <span class="stat-label">Daily calories</span>
+          <span class="stat-value" id="targetCalories">-</span>
+          <span class="small muted" id="bmrText"></span>
+        </div>
+        <div class="card metric-card">
+          <span class="stat-label">Protein</span><span class="stat-value" id="proteinValue">-</span>
+        </div>
+        <div class="card metric-card">
+          <span class="stat-label">Carbs</span><span class="stat-value" id="carbsValue">-</span>
+        </div>
+        <div class="card metric-card">
+          <span class="stat-label">Fat</span><span class="stat-value" id="fatValue">-</span>
+        </div>
+      </div>
+
+      <div class="card stack">
+        <h2>Check a food by barcode</h2>
+        <p class="small muted">
+          Type the barcode digits printed on the packet. Indian barcodes start with 890, so that part is
+          filled in for you.
+        </p>
+        <div class="row">
+          <input id="barcodeInput" type="text" inputmode="numeric" value="890" maxlength="14" />
+          <button class="btn btn-primary" id="searchButton">Search</button>
+        </div>
+        <p class="small muted" id="searchStatus"></p>
+      </div>
+
+      <div class="card stack hidden" id="resultCard"></div>
+
+      <div class="card stack">
+        <h2>Recent checks</h2>
+        <div id="scanList"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/nutrition.js"></script>
+  </body>
+</html>

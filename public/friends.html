@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friends - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/social.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div>
+        <h1>Friends</h1>
+        <p class="muted small">Find people by username and train together.</p>
+      </div>
+
+      <div class="card stack">
+        <h2>Find a friend</h2>
+        <div class="row">
+          <input id="searchInput" type="text" placeholder="Search username or name" />
+          <button class="btn btn-primary" id="searchButton">Search</button>
+        </div>
+        <div id="searchResults"></div>
+      </div>
+
+      <div class="card stack">
+        <h2>Requests</h2>
+        <div id="requestList"></div>
+      </div>
+
+      <div class="card stack">
+        <h2>My friends</h2>
+        <div id="friendList"></div>
+      </div>
+
+      <a class="btn btn-outline btn-block" href="leaderboard.html">See the leaderboard 🏆</a>
+    </div>
+
+    <script type="module" src="js/social.js"></script>
+  </body>
+</html>

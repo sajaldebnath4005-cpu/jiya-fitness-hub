@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workout.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="loading" class="loading">Loading your plan...</div>
+
+      <div id="content" class="hidden stack">
+        <div class="row-between wrap">
+          <div>
+            <h1>My workout plan</h1>
+            <p class="muted small" id="planSplit"></p>
+          </div>
+          <button class="btn btn-outline btn-small" id="regenerateButton">Regenerate plan</button>
+        </div>
+
+        <p class="small muted" id="planNotes"></p>
+
+        <div class="day-strip" id="dayStrip"></div>
+
+        <div class="card stack">
+          <div class="row-between wrap">
+            <div>
+              <p class="stat-label">Selected day</p>
+              <h2 id="dayName">-</h2>
+              <p class="small muted" id="dayMeta"></p>
+            </div>
+            <div class="ring">
+              <div class="ring-inner">
+                <span class="stat-value" id="dayPercent">0%</span>
+                <span class="small muted">done</span>
+              </div>
+            </div>
+          </div>
+          <div class="progress"><div class="progress-bar" id="dayBar" style="width: 0%"></div></div>
+          <div id="exerciseList"></div>
+          <button class="btn btn-primary btn-block" id="finishButton">Finish workout &amp; save</button>
+        </div>
+
+        <div class="section-title"><h2>Workout history</h2></div>
+        <div class="card" id="historyList"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/workout.js"></script>
+  </body>
+</html>

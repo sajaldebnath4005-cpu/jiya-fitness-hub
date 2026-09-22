@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/progress.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div id="loading" class="loading">Loading your progress...</div>
+
+      <div id="content" class="hidden stack">
+        <div>
+          <h1>My progress</h1>
+          <p class="muted small" id="summaryText"></p>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="card metric-card">
+            <span class="stat-label">Start weight</span><span class="stat-value" id="startWeight">-</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">Current weight</span><span class="stat-value" id="currentWeight">-</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">Target weight</span><span class="stat-value" id="targetWeight">-</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">Goal progress</span><span class="stat-value" id="goalPercent">0%</span>
+            <div class="progress"><div class="progress-bar" id="goalBar" style="width: 0%"></div></div>
+          </div>
+        </div>
+
+        <div class="card stack">
+          <h2>Log today's body metrics</h2>
+          <div class="grid grid-3">
+            <div>
+              <label for="weightInput">Weight (kg)</label>
+              <input id="weightInput" type="number" step="0.1" min="20" max="300" />
+            </div>
+            <div>
+              <label for="fatInput">Body fat % (optional)</label>
+              <input id="fatInput" type="number" step="0.1" min="0" max="70" />
+            </div>
+            <div>
+              <label for="muscleInput">Muscle mass kg (optional)</label>
+              <input id="muscleInput" type="number" step="0.1" min="0" max="120" />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" id="saveMetrics">Save</button>
+        </div>
+
+        <div class="card stack">
+          <h2>Weight history</h2>
+          <div class="chart" id="weightChart"></div>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="card metric-card">
+            <span class="stat-label">Workouts done</span><span class="stat-value" id="workoutCount">0</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">Calories burned</span><span class="stat-value" id="totalCalories">0</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">XP · Level</span><span class="stat-value" id="xpValue">0</span>
+          </div>
+          <div class="card metric-card">
+            <span class="stat-label">Streak</span><span class="stat-value" id="streakValue">0</span>
+            <span class="small muted" id="streakNote"></span>
+          </div>
+        </div>
+
+        <div class="card stack">
+          <h2>This week</h2>
+          <div class="grid grid-2">
+            <div>
+              <p class="stat-label">Steps</p>
+              <div class="chart" id="stepsChart"></div>
+            </div>
+            <div>
+              <p class="stat-label">Water (ml)</p>
+              <div class="chart" id="waterChart"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card stack">
+          <h2>Workout history</h2>
+          <div id="workoutHistory"></div>
+        </div>
+
+        <div class="card stack">
+          <h2>Achievements</h2>
+          <div class="grid grid-4" id="badgeGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/progress.js"></script>
+  </body>
+</html>
