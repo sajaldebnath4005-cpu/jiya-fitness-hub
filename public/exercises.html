@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise library - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workout.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div>
+        <h1>Exercise library</h1>
+        <p class="muted small">Tap any exercise to see how it is done.</p>
+      </div>
+
+      <div class="filter-bar">
+        <input id="searchInput" type="text" placeholder="Search exercise name..." />
+        <select id="groupSelect"><option value="">All muscle groups</option></select>
+        <select id="levelSelect">
+          <option value="">All levels</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </div>
+
+      <p class="small muted" id="countText"></p>
+      <div class="grid grid-3" id="libraryGrid"></div>
+    </div>
+
+    <script type="module" src="js/exercises.js"></script>
+  </body>
+</html>
