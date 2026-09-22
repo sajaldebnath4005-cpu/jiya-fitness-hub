@@ -1,0 +1,86 @@
+/* ===============================================
+   Jiya Fit Buddy - profile and AI coach pages
+   =============================================== */
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.info-line:last-child { border-bottom: none; }
+.info-line span:first-child { color: var(--text-muted); }
+
+/* ---------- AI coach chat ---------- */
+
+.chat-window {
+  height: 55vh;
+  min-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.bubble {
+  max-width: 82%;
+  padding: 12px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.bubble-user {
+  align-self: flex-end;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  border-bottom-right-radius: 5px;
+}
+.bubble-jiya {
+  align-self: flex-start;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 5px;
+}
+
+.chat-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.chat-form input { flex: 1; }
+
+.suggestion {
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+.suggestion:hover { border-color: var(--primary); color: var(--primary); }
