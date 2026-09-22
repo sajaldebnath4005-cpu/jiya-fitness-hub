@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat with Jiya - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/profile.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div class="coach-banner">
+        <div class="coach-avatar">🤖</div>
+        <div style="flex: 1">
+          <h1 style="margin: 0; font-size: 22px">Chat with Jiya</h1>
+          <p class="small muted" style="margin: 4px 0 0" id="coachContext">Your AI fitness coach</p>
+        </div>
+        <button class="btn btn-ghost btn-small" id="clearButton">Clear chat</button>
+      </div>
+
+      <div class="chat-window" id="chatWindow"></div>
+
+      <div class="row wrap" id="suggestions"></div>
+
+      <form class="chat-form" id="chatForm">
+        <input id="messageInput" type="text" placeholder="Ask Jiya anything about your plan..." autocomplete="off" />
+        <button class="btn btn-primary" type="submit" id="sendButton">Send</button>
+      </form>
+    </div>
+
+    <script type="module" src="js/ai-coach.js"></script>
+  </body>
+</html>
