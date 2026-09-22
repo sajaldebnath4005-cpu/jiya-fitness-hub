@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steps - Jiya Fit Buddy</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/progress.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div>
+        <h1>Steps</h1>
+        <p class="muted small">Walk with the phone in your hand or pocket and keep this page open.</p>
+      </div>
+
+      <div class="card tracker-hero stack">
+        <p class="stat-label">Steps today</p>
+        <p class="big-number" id="stepsValue">0</p>
+        <div class="progress"><div class="progress-bar" id="stepsBar" style="width: 0%"></div></div>
+        <p class="small muted" id="goalText">Goal: 8000 steps</p>
+        <div class="row" style="justify-content: center">
+          <button class="btn btn-primary" id="trackButton">Start tracking</button>
+          <button class="btn btn-outline" id="addButton">+500 steps</button>
+        </div>
+        <p class="small muted" id="sensorText"></p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card metric-card">
+          <span class="stat-label">Distance</span>
+          <span class="stat-value" id="distanceValue">0.00 km</span>
+        </div>
+        <div class="card metric-card">
+          <span class="stat-label">Calories from walking</span>
+          <span class="stat-value" id="stepCalories">0</span>
+        </div>
+        <div class="card metric-card">
+          <span class="stat-label">Goal reached</span>
+          <span class="stat-value" id="percentValue">0%</span>
+        </div>
+      </div>
+
+      <div class="card stack">
+        <h2>Last 7 days</h2>
+        <div class="chart" id="stepsChart"></div>
+      </div>
+
+      <div class="card stack">
+        <h2>History</h2>
+        <div id="historyList"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/steps.js"></script>
+  </body>
+</html>
