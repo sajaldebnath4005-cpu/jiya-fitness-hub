@@ -156,24 +156,39 @@ async function loadHistory() {
 
   const chart = byId("stepsChart");
   const last7 = rows.slice(0, 7).reverse();
-  const max = Math.max(STEP_GOAL, ...last7.map(function (row) { return row.steps; }), 1);
-  chart.innerHTML = last7
-    .map(function (row) {
-      const height = Math.round((row.steps / max) * 100);
-      return (
-        '<div class="chart-col"><div class="chart-fill" style="height:' + height + '%"></div>' +
-        '<span class="chart-label">' + row.date.slice(5) + "</span></div>"
-      );
-    })
-    .join("") || '<p class="muted small">No steps logged yet.</p>';
+  const max = Math.max(
+    STEP_GOAL,
+    ...last7.map(function (row) {
+      return row.steps;
+    }),
+    1,
+  );
+  chart.innerHTML =
+    last7
+      .map(function (row) {
+        const height = Math.round((row.steps / max) * 100);
+        return (
+          '<div class="chart-col"><div class="chart-fill" style="height:' +
+          height +
+          '%"></div>' +
+          '<span class="chart-label">' +
+          row.date.slice(5) +
+          "</span></div>"
+        );
+      })
+      .join("") || '<p class="muted small">No steps logged yet.</p>';
 
   byId("historyList").innerHTML =
     rows
       .map(function (row) {
         return (
-          '<div class="list-row"><span>' + row.date + "</span><span class='lime'>" +
-          row.steps.toLocaleString() + " steps · " +
-          ((row.steps * STEP_LENGTH_M) / 1000).toFixed(2) + " km</span></div>"
+          '<div class="list-row"><span>' +
+          row.date +
+          "</span><span class='lime'>" +
+          row.steps.toLocaleString() +
+          " steps · " +
+          ((row.steps * STEP_LENGTH_M) / 1000).toFixed(2) +
+          " km</span></div>"
         );
       })
       .join("") || '<p class="muted small">No history yet.</p>';

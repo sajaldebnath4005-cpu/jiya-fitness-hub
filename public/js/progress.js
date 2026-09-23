@@ -52,7 +52,11 @@ async function start() {
   await checkBadges(profile);
 
   byId("summaryText").textContent =
-    "Goal: " + (fitness.goal || "Stay Fit") + " · " + (fitness.fitness_level || "Beginner") + " level";
+    "Goal: " +
+    (fitness.goal || "Stay Fit") +
+    " · " +
+    (fitness.fitness_level || "Beginner") +
+    " level";
 
   byId("saveMetrics").addEventListener("click", function () {
     saveMetrics(fitness);
@@ -94,7 +98,9 @@ async function drawWeight(fitness) {
   byId("goalBar").style.width = percent + "%";
 
   const last = rows.slice(-10);
-  const values = last.map(function (row) { return Number(row.weight); });
+  const values = last.map(function (row) {
+    return Number(row.weight);
+  });
   const max = Math.max(...values, target, 1);
   const min = Math.min(...values, target) - 2;
 
@@ -104,9 +110,15 @@ async function drawWeight(fitness) {
         const value = Number(row.weight);
         const height = Math.round(((value - min) / (max - min || 1)) * 100);
         return (
-          '<div class="chart-col" title="' + value + ' kg">' +
-          '<div class="chart-fill" style="height:' + Math.max(height, 5) + '%"></div>' +
-          '<span class="chart-label">' + row.date.slice(5) + "</span></div>"
+          '<div class="chart-col" title="' +
+          value +
+          ' kg">' +
+          '<div class="chart-fill" style="height:' +
+          Math.max(height, 5) +
+          '%"></div>' +
+          '<span class="chart-label">' +
+          row.date.slice(5) +
+          "</span></div>"
         );
       })
       .join("") || '<p class="muted small">No weight logged yet.</p>';
@@ -119,7 +131,11 @@ async function saveMetrics(fitness) {
     return;
   }
 
-  await supabase.from("body_metrics_logs").delete().eq("user_id", user.id).eq("date", todayString());
+  await supabase
+    .from("body_metrics_logs")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("date", todayString());
 
   const { error } = await supabase.from("body_metrics_logs").insert({
     user_id: user.id,
@@ -162,8 +178,16 @@ async function drawWorkouts() {
       .slice(0, 15)
       .map(function (log) {
         return (
-          '<div class="list-row"><span>' + log.date + " · " + log.workout_name + "</span>" +
-          '<span class="lime">' + log.duration + " min · " + log.calories_burned + " kcal</span></div>"
+          '<div class="list-row"><span>' +
+          log.date +
+          " · " +
+          log.workout_name +
+          "</span>" +
+          '<span class="lime">' +
+          log.duration +
+          " min · " +
+          log.calories_burned +
+          " kcal</span></div>"
         );
       })
       .join("") || '<p class="muted small">No workouts saved yet.</p>';
@@ -178,14 +202,26 @@ async function drawDaily() {
     .limit(7);
 
   const steps = (stepRows || []).reverse();
-  const stepMax = Math.max(8000, ...steps.map(function (row) { return row.steps; }), 1);
+  const stepMax = Math.max(
+    8000,
+    ...steps.map(function (row) {
+      return row.steps;
+    }),
+    1,
+  );
   byId("stepsChart").innerHTML =
     steps
       .map(function (row) {
         return (
-          '<div class="chart-col" title="' + row.steps + ' steps">' +
-          '<div class="chart-fill" style="height:' + Math.round((row.steps / stepMax) * 100) + '%"></div>' +
-          '<span class="chart-label">' + row.date.slice(5) + "</span></div>"
+          '<div class="chart-col" title="' +
+          row.steps +
+          ' steps">' +
+          '<div class="chart-fill" style="height:' +
+          Math.round((row.steps / stepMax) * 100) +
+          '%"></div>' +
+          '<span class="chart-label">' +
+          row.date.slice(5) +
+          "</span></div>"
         );
       })
       .join("") || '<p class="muted small">No steps yet.</p>';
@@ -200,15 +236,27 @@ async function drawDaily() {
     perDay[row.date] = (perDay[row.date] || 0) + row.ml;
   });
   const dates = Object.keys(perDay).sort().slice(-7);
-  const waterMax = Math.max(2500, ...dates.map(function (date) { return perDay[date]; }), 1);
+  const waterMax = Math.max(
+    2500,
+    ...dates.map(function (date) {
+      return perDay[date];
+    }),
+    1,
+  );
 
   byId("waterChart").innerHTML =
     dates
       .map(function (date) {
         return (
-          '<div class="chart-col" title="' + perDay[date] + ' ml">' +
-          '<div class="chart-fill" style="height:' + Math.round((perDay[date] / waterMax) * 100) + '%"></div>' +
-          '<span class="chart-label">' + date.slice(5) + "</span></div>"
+          '<div class="chart-col" title="' +
+          perDay[date] +
+          ' ml">' +
+          '<div class="chart-fill" style="height:' +
+          Math.round((perDay[date] / waterMax) * 100) +
+          '%"></div>' +
+          '<span class="chart-label">' +
+          date.slice(5) +
+          "</span></div>"
         );
       })
       .join("") || '<p class="muted small">No water yet.</p>';
@@ -218,9 +266,10 @@ function drawXp(profile) {
   const xp = profile ? profile.xp : 0;
   byId("xpValue").textContent = xp + " · L" + levelFromXp(xp);
   byId("streakValue").textContent = (profile ? profile.streak_days : 0) + " days";
-  byId("streakNote").textContent = profile && profile.last_active_date
-    ? "Last active " + profile.last_active_date
-    : "Log something today to start a streak.";
+  byId("streakNote").textContent =
+    profile && profile.last_active_date
+      ? "Last active " + profile.last_active_date
+      : "Log something today to start a streak.";
 }
 
 // Gives the badges the user has earned, then shows all badges (locked or not).
@@ -230,7 +279,9 @@ async function checkBadges(profile) {
     .select("badge_type")
     .eq("user_id", user.id);
 
-  const earned = (earnedRows || []).map(function (row) { return row.badge_type; });
+  const earned = (earnedRows || []).map(function (row) {
+    return row.badge_type;
+  });
   const toGive = [];
 
   const xp = profile ? profile.xp : 0;
@@ -251,19 +302,29 @@ async function checkBadges(profile) {
 
   if (newOnes.length > 0) {
     const rows = newOnes.map(function (type) {
-      const badge = BADGES.find(function (item) { return item.type === type; });
+      const badge = BADGES.find(function (item) {
+        return item.type === type;
+      });
       return { user_id: user.id, badge_type: type, label: badge ? badge.label : type };
     });
     await supabase.from("achievements").upsert(rows, { onConflict: "user_id,badge_type" });
-    newOnes.forEach(function (type) { earned.push(type); });
+    newOnes.forEach(function (type) {
+      earned.push(type);
+    });
   }
 
   byId("badgeGrid").innerHTML = BADGES.map(function (badge) {
     const has = earned.indexOf(badge.type) !== -1;
     return (
-      '<div class="badge-card' + (has ? "" : " locked") + '">' +
-      '<span class="badge-icon">' + badge.icon + "</span>" +
-      '<b class="small">' + badge.label + "</b></div>"
+      '<div class="badge-card' +
+      (has ? "" : " locked") +
+      '">' +
+      '<span class="badge-icon">' +
+      badge.icon +
+      "</span>" +
+      '<b class="small">' +
+      badge.label +
+      "</b></div>"
     );
   }).join("");
 }

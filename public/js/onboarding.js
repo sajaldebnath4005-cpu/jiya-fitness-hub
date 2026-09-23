@@ -30,8 +30,17 @@ const RESULT_OPTIONS = [
 ];
 
 const MUSCLE_OPTIONS = [
-  "Chest", "Back", "Shoulders", "Biceps", "Triceps",
-  "Abs", "Quads", "Hamstrings", "Glutes", "Calves", "Full Body",
+  "Chest",
+  "Back",
+  "Shoulders",
+  "Biceps",
+  "Triceps",
+  "Abs",
+  "Quads",
+  "Hamstrings",
+  "Glutes",
+  "Calves",
+  "Full Body",
 ];
 
 const LOCATIONS = ["Home", "Gym", "Both"];
@@ -127,13 +136,15 @@ if (user) {
     if (existing.fitness_level) byId("fitnessLevel").value = existing.fitness_level;
     if (existing.intensity) byId("intensity").value = existing.intensity;
     if (existing.days_per_week) byId("daysPerWeek").value = String(existing.days_per_week);
-    if (existing.session_duration) byId("sessionDuration").value = String(existing.session_duration);
+    if (existing.session_duration)
+      byId("sessionDuration").value = String(existing.session_duration);
     if (existing.goal) selected.goal = existing.goal;
     if (existing.workout_location) selected.workout_location = existing.workout_location;
     if (existing.equipment_home) selected.equipment_home = existing.equipment_home;
     if (existing.equipment_gym) selected.equipment_gym = existing.equipment_gym;
     if (existing.injuries && existing.injuries.length) selected.injuries = existing.injuries;
-    if (existing.schedule_days && existing.schedule_days.length) selected.schedule_days = existing.schedule_days;
+    if (existing.schedule_days && existing.schedule_days.length)
+      selected.schedule_days = existing.schedule_days;
     if (existing.focus_muscles) selected.focus_muscles = existing.focus_muscles;
     if (existing.desired_results) selected.desired_results = existing.desired_results;
 

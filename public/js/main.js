@@ -173,10 +173,14 @@ export function renderNavigation() {
     coachPanel.innerHTML =
       '<div class="jiya-panel-head"><div><b>Talk with Jiya</b><span>Your fitness coach</span></div>' +
       '<button class="icon-button" id="jiyaClose" type="button" aria-label="Close Jiya chat">✕</button></div>' +
-      '<iframe class="jiya-frame" src="ai-coach.html?panel=1" title="Talk with Jiya"></iframe>';
+      '<iframe class="jiya-frame" src="about:blank" data-src="ai-coach.html?panel=1" title="Talk with Jiya"></iframe>';
     document.body.appendChild(coachPanel);
 
     byId("jiyaLaunch").addEventListener("click", function () {
+      const frame = coachPanel.querySelector("iframe");
+      if (frame && frame.getAttribute("src") === "about:blank") {
+        frame.setAttribute("src", frame.dataset.src);
+      }
       coachPanel.classList.remove("hidden");
       document.body.classList.add("panel-open");
     });

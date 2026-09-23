@@ -74,8 +74,20 @@ export function availableEquipment(answers) {
   if (answers.workout_location === "Gym" || answers.workout_location === "Both") {
     gym.forEach(add);
     if (gym.indexOf("Full Gym") !== -1) {
-      ["Basic Gym", "Free Weights", "Dumbbells", "Bench", "Cable Machine", "Cardio Machines",
-        "Power Rack", "Smith Machine", "Pull-up Bar", "Kettlebell", "Treadmill", "Exercise Bike"].forEach(add);
+      [
+        "Basic Gym",
+        "Free Weights",
+        "Dumbbells",
+        "Bench",
+        "Cable Machine",
+        "Cardio Machines",
+        "Power Rack",
+        "Smith Machine",
+        "Pull-up Bar",
+        "Kettlebell",
+        "Treadmill",
+        "Exercise Bike",
+      ].forEach(add);
     }
     if (gym.indexOf("Basic Gym") !== -1) ["Dumbbells", "Bench", "Free Weights"].forEach(add);
     if (gym.indexOf("Free Weights") !== -1) ["Dumbbells", "Kettlebell"].forEach(add);
@@ -96,9 +108,11 @@ export function isEligible(exercise, answers, equipment) {
   if (unsafe) return false;
 
   const needed = exercise.equipment || [];
-  const hasEquipment = needed.length === 0 || needed.some(function (item) {
-    return equipment.indexOf(item) !== -1;
-  });
+  const hasEquipment =
+    needed.length === 0 ||
+    needed.some(function (item) {
+      return equipment.indexOf(item) !== -1;
+    });
   if (!hasEquipment) return false;
 
   const userRank = LEVEL_RANK[answers.fitness_level] || 1;
@@ -144,7 +158,10 @@ function splitTemplate(answers) {
   const goal = answers.goal || "Stay Fit";
 
   const FULL = { name: "Full Body", groups: ["Chest", "Back", "Quads", "Shoulders", "Abs"] };
-  const UPPER = { name: "Upper Body Strength", groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps"] };
+  const UPPER = {
+    name: "Upper Body Strength",
+    groups: ["Chest", "Back", "Shoulders", "Biceps", "Triceps"],
+  };
   const LOWER = { name: "Lower Body Power", groups: ["Quads", "Hamstrings", "Glutes", "Calves"] };
   const PUSH = { name: "Push Day", groups: ["Chest", "Shoulders", "Triceps"] };
   const PULL = { name: "Pull Day", groups: ["Back", "Biceps", "Forearms"] };
@@ -158,30 +175,54 @@ function splitTemplate(answers) {
     return { label: "Endurance circuit · " + days + " days/week", days: rotation.slice(0, days) };
   }
   if (days <= 2) {
-    return { label: "Full-body split · " + days + " days/week", days: [FULL, { name: "Full Body B", groups: FULL.groups }].slice(0, days) };
+    return {
+      label: "Full-body split · " + days + " days/week",
+      days: [FULL, { name: "Full Body B", groups: FULL.groups }].slice(0, days),
+    };
   }
   if (days === 3) {
     if (goal === "Lose Weight") {
-      return { label: "Full body + conditioning · 3 days/week", days: [FULL, CARDIO, { name: "Full Body B", groups: FULL.groups }] };
+      return {
+        label: "Full body + conditioning · 3 days/week",
+        days: [FULL, CARDIO, { name: "Full Body B", groups: FULL.groups }],
+      };
     }
     return { label: "Push / Pull / Legs · 3 days/week", days: [PUSH, PULL, LEGS] };
   }
   if (days === 4) {
     return {
       label: "Upper / Lower · 4 days/week",
-      days: [UPPER, LOWER, { name: "Upper Body Hypertrophy", groups: UPPER.groups }, { name: "Lower Body Volume", groups: LOWER.groups }],
+      days: [
+        UPPER,
+        LOWER,
+        { name: "Upper Body Hypertrophy", groups: UPPER.groups },
+        { name: "Lower Body Volume", groups: LOWER.groups },
+      ],
     };
   }
   if (days === 5) {
-    return { label: "Push / Pull / Legs + Upper / Core · 5 days/week", days: [PUSH, PULL, LEGS, UPPER, CORE] };
+    return {
+      label: "Push / Pull / Legs + Upper / Core · 5 days/week",
+      days: [PUSH, PULL, LEGS, UPPER, CORE],
+    };
   }
   if (days === 6) {
     return {
       label: "Push / Pull / Legs ×2 · 6 days/week",
-      days: [PUSH, PULL, LEGS, { name: "Push Day B", groups: PUSH.groups }, { name: "Pull Day B", groups: PULL.groups }, { name: "Leg Day B", groups: LEGS.groups }],
+      days: [
+        PUSH,
+        PULL,
+        LEGS,
+        { name: "Push Day B", groups: PUSH.groups },
+        { name: "Pull Day B", groups: PULL.groups },
+        { name: "Leg Day B", groups: LEGS.groups },
+      ],
     };
   }
-  return { label: "PPL + Arms + Core · 7 days/week", days: [PUSH, PULL, LEGS, ARMS, CORE, UPPER, CARDIO] };
+  return {
+    label: "PPL + Arms + Core · 7 days/week",
+    days: [PUSH, PULL, LEGS, ARMS, CORE, UPPER, CARDIO],
+  };
 }
 
 // How many exercises, sets, reps and rest?
@@ -201,11 +242,22 @@ function volumeFor(answers) {
   const goal = answers.goal || "Stay Fit";
   let reps = "12 reps";
   let rest = 60;
-  if (goal === "Gain Strength") { reps = "5 reps"; rest = 150; }
-  else if (goal === "Build Muscle") { reps = "10 reps"; rest = 90; }
-  else if (goal === "Lose Weight") { reps = "15 reps"; rest = 45; }
-  else if (goal === "Improve Endurance") { reps = "20 reps"; rest = 30; }
-  else if (goal === "Athletic Performance") { reps = "8 reps"; rest = 75; }
+  if (goal === "Gain Strength") {
+    reps = "5 reps";
+    rest = 150;
+  } else if (goal === "Build Muscle") {
+    reps = "10 reps";
+    rest = 90;
+  } else if (goal === "Lose Weight") {
+    reps = "15 reps";
+    rest = 45;
+  } else if (goal === "Improve Endurance") {
+    reps = "20 reps";
+    rest = 30;
+  } else if (goal === "Athletic Performance") {
+    reps = "8 reps";
+    rest = 75;
+  }
 
   const restChange = { Easy: 20, Moderate: 0, Hard: -10, Intense: -15 };
   rest = Math.max(20, rest + (restChange[intensity] || 0));
@@ -275,14 +327,28 @@ export function generatePlan(answers, allExercises) {
     pool.forEach(function (exercise) {
       let score = 0;
       if (dayTemplate.groups.indexOf(exercise.muscle_group) !== -1) score = score + 10;
-      if ((exercise.secondary_muscles || []).some(function (m) { return dayTemplate.groups.indexOf(m) !== -1; })) score = score + 3;
+      if (
+        (exercise.secondary_muscles || []).some(function (m) {
+          return dayTemplate.groups.indexOf(m) !== -1;
+        })
+      )
+        score = score + 3;
       if (priority.indexOf(exercise.muscle_group) !== -1) score = score + 6;
-      if ((exercise.secondary_muscles || []).some(function (m) { return priority.indexOf(m) !== -1; })) score = score + 2;
-      if (answers.fitness_level === "Advanced" && exercise.difficulty === "Advanced") score = score + 2;
-      if (answers.fitness_level === "Beginner" && exercise.difficulty === "Beginner") score = score + 2;
+      if (
+        (exercise.secondary_muscles || []).some(function (m) {
+          return priority.indexOf(m) !== -1;
+        })
+      )
+        score = score + 2;
+      if (answers.fitness_level === "Advanced" && exercise.difficulty === "Advanced")
+        score = score + 2;
+      if (answers.fitness_level === "Beginner" && exercise.difficulty === "Beginner")
+        score = score + 2;
       if (score > 0) scored.push({ exercise: exercise, score: score });
     });
-    scored.sort(function (a, b) { return b.score - a.score; });
+    scored.sort(function (a, b) {
+      return b.score - a.score;
+    });
 
     const picked = [];
     const usedGroups = {};
@@ -328,14 +394,22 @@ export function generatePlan(answers, allExercises) {
     });
   });
 
-  const injuries = (answers.injuries || []).filter(function (i) { return i !== "None"; });
+  const injuries = (answers.injuries || []).filter(function (i) {
+    return i !== "None";
+  });
   const notes = [
     "Built for your goal: " + (answers.goal || "general fitness") + ".",
-    (answers.fitness_level || "Beginner") + " level, " + (answers.intensity || "Moderate") +
-      " intensity, " + (answers.session_duration || 45) + " min sessions.",
+    (answers.fitness_level || "Beginner") +
+      " level, " +
+      (answers.intensity || "Moderate") +
+      " intensity, " +
+      (answers.session_duration || 45) +
+      " min sessions.",
     priority.length > 0 ? "Extra work on: " + priority.join(", ") + "." : "",
     injuries.length > 0 ? "Exercises unsafe for " + injuries.join(", ") + " were replaced." : "",
-  ].filter(Boolean).join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return {
     split_structure: template.label,
@@ -411,8 +485,19 @@ export function estimateWeeks(answers) {
 export function levelFromXp(xp) {
   const points = Number(xp) || 0;
   const level = Math.max(1, Math.floor(points / 300) + 1);
-  const titles = ["Rookie", "Starter", "Mover", "Grinder", "Challenger", "Athlete",
-    "Contender", "Fit Warrior", "Beast", "Elite", "Legend"];
+  const titles = [
+    "Rookie",
+    "Starter",
+    "Mover",
+    "Grinder",
+    "Challenger",
+    "Athlete",
+    "Contender",
+    "Fit Warrior",
+    "Beast",
+    "Elite",
+    "Legend",
+  ];
   const title = titles[Math.min(level - 1, titles.length - 1)];
   return { level: level, title: title, into: points % 300, next: 300 };
 }
@@ -442,7 +527,9 @@ export async function savePlan(supabase, userId, plan) {
       day_of_week: day.day_of_week,
       name: day.name,
       is_rest: day.is_rest,
-      exercise_ids: day.prescriptions.map(function (p) { return p.exercise_id; }),
+      exercise_ids: day.prescriptions.map(function (p) {
+        return p.exercise_id;
+      }),
       prescriptions: day.prescriptions,
       estimated_duration: day.estimated_duration,
       estimated_calories: day.estimated_calories,

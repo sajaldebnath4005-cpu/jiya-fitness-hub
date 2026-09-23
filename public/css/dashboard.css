@@ -83,7 +83,9 @@
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
 }
-.exercise-item:last-child { border-bottom: none; }
+.exercise-item:last-child {
+  border-bottom: none;
+}
 
 .section-title {
   display: flex;
@@ -93,5 +95,7 @@
 }
 
 @media (max-width: 720px) {
-  .quick-actions { grid-template-columns: repeat(2, 1fr); }
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

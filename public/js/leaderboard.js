@@ -21,7 +21,9 @@ async function start() {
   const tabs = document.querySelectorAll(".tab");
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {
-      tabs.forEach(function (other) { other.classList.remove("active"); });
+      tabs.forEach(function (other) {
+        other.classList.remove("active");
+      });
       tab.classList.add("active");
       view = tab.getAttribute("data-view");
       draw();
@@ -60,13 +62,26 @@ async function draw() {
     const row = document.createElement("div");
     row.className = "person-row";
     row.innerHTML =
-      '<span class="rank rank-' + place + '">' + (place <= 3 ? ["🥇", "🥈", "🥉"][place - 1] : place) + "</span>" +
-      '<div class="person-avatar">' + (person.name || person.username || "?").slice(0, 1).toUpperCase() + "</div>" +
+      '<span class="rank rank-' +
+      place +
+      '">' +
+      (place <= 3 ? ["🥇", "🥈", "🥉"][place - 1] : place) +
+      "</span>" +
+      '<div class="person-avatar">' +
+      (person.name || person.username || "?").slice(0, 1).toUpperCase() +
+      "</div>" +
       '<div class="person-main"><p class="person-name" style="margin:0">' +
-      (person.name || person.username) + (person.id === user.id ? " (you)" : "") +
-      '</p><p class="small muted" style="margin:2px 0 0">@' + person.username + "</p></div>" +
-      '<div style="text-align:right"><b class="lime">' + person.xp + " XP</b>" +
-      '<p class="small muted" style="margin:2px 0 0">🔥 ' + person.streak_days + " days</p></div>";
+      (person.name || person.username) +
+      (person.id === user.id ? " (you)" : "") +
+      '</p><p class="small muted" style="margin:2px 0 0">@' +
+      person.username +
+      "</p></div>" +
+      '<div style="text-align:right"><b class="lime">' +
+      person.xp +
+      " XP</b>" +
+      '<p class="small muted" style="margin:2px 0 0">🔥 ' +
+      person.streak_days +
+      " days</p></div>";
     box.appendChild(row);
   });
 }

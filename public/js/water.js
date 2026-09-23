@@ -4,7 +4,14 @@
 // Every button press inserts one row into the water_logs table.
 
 import { supabase } from "./supabase.js";
-import { byId, requireLogin, renderNavigation, toast, todayString, calculateProgress } from "./main.js";
+import {
+  byId,
+  requireLogin,
+  renderNavigation,
+  toast,
+  todayString,
+  calculateProgress,
+} from "./main.js";
 
 const WATER_GOAL_ML = 2500;
 
@@ -85,15 +92,25 @@ async function loadAll() {
     perDay[row.date] = (perDay[row.date] || 0) + row.ml;
   });
   const dates = Object.keys(perDay).sort().slice(-7);
-  const max = Math.max(WATER_GOAL_ML, ...dates.map(function (date) { return perDay[date]; }), 1);
+  const max = Math.max(
+    WATER_GOAL_ML,
+    ...dates.map(function (date) {
+      return perDay[date];
+    }),
+    1,
+  );
 
   byId("waterChart").innerHTML =
     dates
       .map(function (date) {
         const height = Math.round((perDay[date] / max) * 100);
         return (
-          '<div class="chart-col"><div class="chart-fill" style="height:' + height + '%"></div>' +
-          '<span class="chart-label">' + date.slice(5) + "</span></div>"
+          '<div class="chart-col"><div class="chart-fill" style="height:' +
+          height +
+          '%"></div>' +
+          '<span class="chart-label">' +
+          date.slice(5) +
+          "</span></div>"
         );
       })
       .join("") || '<p class="muted small">Nothing logged yet.</p>';
@@ -101,8 +118,17 @@ async function loadAll() {
   byId("todayList").innerHTML =
     todayRows
       .map(function (row) {
-        const time = new Date(row.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        return '<div class="list-row"><span>' + time + '</span><span class="lime">' + row.ml + " ml</span></div>";
+        const time = new Date(row.created_at).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return (
+          '<div class="list-row"><span>' +
+          time +
+          '</span><span class="lime">' +
+          row.ml +
+          " ml</span></div>"
+        );
       })
       .join("") || '<p class="muted small">No glasses yet today.</p>';
 }
