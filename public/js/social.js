@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - friends page
+// AI-Fitness Trainer - friends page
 // ===============================================
 // Uses the database functions search_users, accept_friend_request and
 // remove_friend that already exist in the backend.

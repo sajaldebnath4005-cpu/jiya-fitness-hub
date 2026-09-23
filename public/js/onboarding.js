@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - onboarding questions
+// AI-Fitness Trainer - onboarding questions
 // ===============================================
 // Saves the answers into the user_profiles table, then builds and saves
 // the personalised workout plan.

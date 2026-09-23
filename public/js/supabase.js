@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - connection to the backend
+// AI-Fitness Trainer - connection to the backend
 // ===============================================
 // We use the official Supabase JavaScript client.
 // The key below is the PUBLIC (publishable) key. It is safe in the browser

@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - personalised workout + calories
+// AI-Fitness Trainer - personalised workout + calories
 // ===============================================
 // These are plain JavaScript functions. They take the user's onboarding
 // answers and build a weekly workout plan, and they calculate calories.

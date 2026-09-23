@@ -7,6 +7,7 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
+import { z } from 'zod'
 
 const MODEL = 'openai/gpt-6-astra'
 const FITNESS_ONLY_REPLY =
@@ -24,6 +25,21 @@ function isClearlyOffTopic(message: string) {
   ]
   return offTopicPatterns.some((pattern) => pattern.test(text))
 }
+
+const coachRequestSchema = z.object({
+  message: z.string().trim().min(1).max(1000),
+  facts: z.string().max(2000).optional().default(''),
+  history: z
+    .array(
+      z.object({
+        sender: z.enum(['user', 'jiya']),
+        message: z.string().max(1000),
+      }),
+    )
+    .max(10)
+    .optional()
+    .default([]),
+})
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -58,22 +74,20 @@ export const Route = createFileRoute('/api/public/coach')({
         }
 
         // 2. Read the question and the user facts the page sent.
-        let payload: { message?: string; facts?: string; history?: Array<{ sender: string; message: string }> }
+        let payload: unknown
         try {
           payload = await request.json()
         } catch {
           return json({ error: 'Bad request.' }, 400)
         }
 
-        const message = (payload.message ?? '').toString().slice(0, 1000).trim()
-        if (!message) return json({ error: 'Type a question first.' }, 400)
+        const parsed = coachRequestSchema.safeParse(payload)
+        if (!parsed.success) return json({ error: 'Please check your message and try again.' }, 400)
+        const { message, facts, history } = parsed.data
 
         if (isClearlyOffTopic(message)) {
           return json({ reply: FITNESS_ONLY_REPLY })
         }
-
-        const facts = (payload.facts ?? '').toString().slice(0, 2000)
-        const history = Array.isArray(payload.history) ? payload.history.slice(-10) : []
 
         const systemPrompt =
           'You are Jiya, the fitness assistant inside the AI-Fitness Trainer application. ' +

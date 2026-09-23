@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - leaderboard page
+// AI-Fitness Trainer - leaderboard page
 // ===============================================
 // Uses the database functions friends_leaderboard and global_leaderboard,
 // which only return public information (username, name, XP, streak).

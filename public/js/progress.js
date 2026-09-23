@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - progress page
+// AI-Fitness Trainer - progress page
 // ===============================================
 // Shows weight, workout, steps, water, XP, streak and badges.
 // The charts are plain <div> bars - no chart library is used.

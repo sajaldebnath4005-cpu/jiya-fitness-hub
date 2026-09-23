@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - water page
+// AI-Fitness Trainer - water page
 // ===============================================
 // Every button press inserts one row into the water_logs table.
 

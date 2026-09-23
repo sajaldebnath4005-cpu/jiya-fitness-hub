@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - steps page
+// AI-Fitness Trainer - steps page
 // ===============================================
 // Counts steps using the phone motion sensor (no map, no GPS).
 // Every count is saved into the step_logs table.

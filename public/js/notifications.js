@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - notifications page
+// AI-Fitness Trainer - notifications page
 // ===============================================
 
 import { supabase } from "./supabase.js";
