@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - notifications page
+// AI-Fitness Trainer - notifications page
 // ===============================================
 
 import { supabase } from "./supabase.js";
@@ -37,7 +37,9 @@ async function load() {
     .limit(50);
 
   const rows = data || [];
-  const unread = rows.filter(function (row) { return !row.read; }).length;
+  const unread = rows.filter(function (row) {
+    return !row.read;
+  }).length;
   byId("countText").textContent = unread + " unread of " + rows.length;
 
   const box = byId("noteList");
@@ -51,11 +53,18 @@ async function load() {
     const row = document.createElement("div");
     row.className = "note-row" + (note.read ? "" : " unread");
     row.innerHTML =
-      '<span class="note-icon">' + (ICONS[note.kind] || "🔔") + "</span>" +
-      "<div style='flex:1'><b>" + note.title + "</b>" +
-      '<p class="small muted" style="margin:4px 0 0">' + (note.body || "") + "</p>" +
+      '<span class="note-icon">' +
+      (ICONS[note.kind] || "🔔") +
+      "</span>" +
+      "<div style='flex:1'><b>" +
+      note.title +
+      "</b>" +
+      '<p class="small muted" style="margin:4px 0 0">' +
+      (note.body || "") +
+      "</p>" +
       '<p class="small muted" style="margin:6px 0 0">' +
-      new Date(note.created_at).toLocaleString() + "</p></div>";
+      new Date(note.created_at).toLocaleString() +
+      "</p></div>";
 
     if (!note.read) {
       row.style.cursor = "pointer";

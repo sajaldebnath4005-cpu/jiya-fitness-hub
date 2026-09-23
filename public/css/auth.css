@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - login, signup and landing pages
+   AI-Fitness Trainer - login, signup and landing pages
    =============================================== */
 
 .auth-page {
@@ -8,7 +8,8 @@
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
-  background-image: radial-gradient(circle at 20% 10%, rgba(174, 234, 0, 0.12), transparent 45%),
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(174, 234, 0, 0.12), transparent 45%),
     radial-gradient(circle at 80% 90%, rgba(174, 234, 0, 0.08), transparent 40%);
 }
 
@@ -30,7 +31,21 @@
   margin-bottom: 18px;
 }
 
-.auth-title { text-align: center; }
+.auth-brand-logo {
+  display: block;
+  width: 112px;
+  height: 112px;
+  object-fit: contain;
+  border-radius: 16px;
+}
+.hero .auth-brand-logo {
+  width: 148px;
+  height: 148px;
+}
+
+.auth-title {
+  text-align: center;
+}
 .auth-sub {
   text-align: center;
   color: var(--text-muted);

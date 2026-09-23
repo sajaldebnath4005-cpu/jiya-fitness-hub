@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create account - Jiya Fit Buddy</title>
+    <title>Create account - AI-Fitness Trainer</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/auth.css" />
     <link rel="stylesheet" href="css/responsive.css" />
@@ -11,8 +11,11 @@
   <body class="auth-page">
     <div class="auth-card">
       <div class="auth-logo">
-        <span class="brand-mark">J</span>
-        <span class="brand-text" style="font-size: 17px">Jiya <b>Fit Buddy</b></span>
+        <img
+          class="auth-brand-logo"
+          src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg"
+          alt="AI-Fitness Trainer"
+        />
       </div>
       <h2 class="auth-title">Create your account</h2>
       <p class="auth-sub">It takes less than a minute</p>
@@ -33,16 +36,22 @@
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" required minlength="6" placeholder="At least 6 characters" />
+          <input
+            type="password"
+            id="password"
+            required
+            minlength="6"
+            placeholder="At least 6 characters"
+          />
         </div>
-        <button class="btn btn-primary btn-block" id="signupButton" type="submit">Create account</button>
+        <button class="btn btn-primary btn-block" id="signupButton" type="submit">
+          Create account
+        </button>
       </form>
 
       <div id="message" class="auth-message hidden"></div>
 
-      <p class="auth-footer">
-        Already have an account? <a href="login.html">Log in</a>
-      </p>
+      <p class="auth-footer">Already have an account? <a href="login.html">Log in</a></p>
     </div>
 
     <script type="module" src="js/auth.js"></script>

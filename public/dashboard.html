@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Jiya Fit Buddy</title>
+    <title>Dashboard - AI-Fitness Trainer</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/responsive.css" />
@@ -39,7 +39,9 @@
               </div>
             </div>
           </div>
-          <div class="progress"><div class="progress-bar" id="workoutBar" style="width: 0%"></div></div>
+          <div class="progress">
+            <div class="progress-bar" id="workoutBar" style="width: 0%"></div>
+          </div>
           <a class="btn btn-primary" href="workout.html" id="workoutButton">Start workout</a>
         </div>
 
@@ -59,40 +61,41 @@
               <span class="metric-icon">⚖️</span>
             </div>
             <span class="stat-value" id="weightNow">- kg</span>
-            <div class="progress"><div class="progress-bar" id="weightBar" style="width: 0%"></div></div>
+            <div class="progress">
+              <div class="progress-bar" id="weightBar" style="width: 0%"></div>
+            </div>
             <p class="small muted" id="weightText"></p>
           </div>
         </div>
 
         <!-- daily trackers -->
-        <div class="grid grid-4">
+        <div class="grid grid-3">
           <a class="card metric-card card-hover" href="steps.html" style="color: inherit">
             <div class="metric-top">
               <span class="stat-label">Steps</span><span class="metric-icon">👟</span>
             </div>
             <span class="stat-value" id="stepsValue">0</span>
-            <div class="progress"><div class="progress-bar" id="stepsBar" style="width: 0%"></div></div>
+            <div class="progress">
+              <div class="progress-bar" id="stepsBar" style="width: 0%"></div>
+            </div>
           </a>
           <a class="card metric-card card-hover" href="water.html" style="color: inherit">
             <div class="metric-top">
               <span class="stat-label">Water</span><span class="metric-icon">💧</span>
             </div>
             <span class="stat-value" id="waterValue">0 ml</span>
-            <div class="progress"><div class="progress-bar" id="waterBar" style="width: 0%"></div></div>
-          </a>
-          <a class="card metric-card card-hover" href="sleep.html" style="color: inherit">
-            <div class="metric-top">
-              <span class="stat-label">Sleep</span><span class="metric-icon">😴</span>
+            <div class="progress">
+              <div class="progress-bar" id="waterBar" style="width: 0%"></div>
             </div>
-            <span class="stat-value" id="sleepValue">- h</span>
-            <div class="progress"><div class="progress-bar" id="sleepBar" style="width: 0%"></div></div>
           </a>
           <a class="card metric-card card-hover" href="profile.html" style="color: inherit">
             <div class="metric-top">
               <span class="stat-label">XP</span><span class="metric-icon">⭐</span>
             </div>
             <span class="stat-value" id="xpValue">0</span>
-            <div class="progress"><div class="progress-bar" id="xpBar" style="width: 0%"></div></div>
+            <div class="progress">
+              <div class="progress-bar" id="xpBar" style="width: 0%"></div>
+            </div>
           </a>
         </div>
 
@@ -113,7 +116,6 @@
         <div class="quick-actions">
           <a class="quick-action" href="water.html"><span>💧</span>Add water</a>
           <a class="quick-action" href="steps.html"><span>👟</span>Track steps</a>
-          <a class="quick-action" href="sleep.html"><span>😴</span>Log sleep</a>
           <a class="quick-action" href="progress.html"><span>⚖️</span>Log weight</a>
           <a class="quick-action" href="nutrition.html"><span>🍎</span>Check food</a>
           <a class="quick-action" href="exercises.html"><span>📚</span>Exercises</a>

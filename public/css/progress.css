@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - progress, steps, water, sleep
+   AI-Fitness Trainer - progress, steps and water
    =============================================== */
 
 .big-number {
@@ -51,7 +51,9 @@
   border-bottom: 1px solid var(--border);
   font-size: 14px;
 }
-.list-row:last-child { border-bottom: none; }
+.list-row:last-child {
+  border-bottom: none;
+}
 
 .badge-card {
   background-color: var(--surface-alt);
@@ -60,8 +62,14 @@
   padding: 16px;
   text-align: center;
 }
-.badge-card.locked { opacity: 0.4; }
-.badge-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+.badge-card.locked {
+  opacity: 0.4;
+}
+.badge-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
 
 .quick-add {
   display: flex;

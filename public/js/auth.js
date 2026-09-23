@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - signup, login, logout, reset
+// AI-Fitness Trainer - signup, login, logout, reset
 // ===============================================
 // One file handles login.html, signup.html and reset-password.html.
 // Each page only has the form it needs, so we check before using it.

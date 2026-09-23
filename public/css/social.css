@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - friends, leaderboard, notifications
+   AI-Fitness Trainer - friends, leaderboard, notifications
    =============================================== */
 
 .person-row {
@@ -9,7 +9,9 @@
   padding: 13px 0;
   border-bottom: 1px solid var(--border);
 }
-.person-row:last-child { border-bottom: none; }
+.person-row:last-child {
+  border-bottom: none;
+}
 
 .person-avatar {
   width: 44px;
@@ -25,8 +27,13 @@
   flex: 0 0 auto;
 }
 
-.person-main { flex: 1; min-width: 0; }
-.person-name { font-weight: 600; }
+.person-main {
+  flex: 1;
+  min-width: 0;
+}
+.person-name {
+  font-weight: 600;
+}
 
 .rank {
   width: 34px;
@@ -34,9 +41,15 @@
   font-weight: 700;
   color: var(--text-muted);
 }
-.rank-1 { color: #ffd700; }
-.rank-2 { color: #cfd8dc; }
-.rank-3 { color: #d2955b; }
+.rank-1 {
+  color: #ffd700;
+}
+.rank-2 {
+  color: #cfd8dc;
+}
+.rank-3 {
+  color: #d2955b;
+}
 
 .tabs {
   display: flex;
@@ -53,7 +66,9 @@
   font-size: 14px;
   cursor: pointer;
 }
-.tab:hover { border-color: var(--primary); }
+.tab:hover {
+  border-color: var(--primary);
+}
 .tab.active {
   background-color: var(--primary);
   border-color: var(--primary);
@@ -69,5 +84,9 @@
   background-color: var(--surface);
   border: 1px solid var(--border);
 }
-.note-row.unread { border-color: var(--primary); }
-.note-icon { font-size: 20px; }
+.note-row.unread {
+  border-color: var(--primary);
+}
+.note-icon {
+  font-size: 20px;
+}

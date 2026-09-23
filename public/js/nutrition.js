@@ -1,8 +1,8 @@
 // ===============================================
-// Jiya Fit Buddy - nutrition page
+// AI-Fitness Trainer - nutrition page
 // ===============================================
 // Shows the daily calorie and macro targets, and looks up a packaged food
-// by its barcode NUMBER (typed by hand - there is no camera scanner).
+// by camera scan or a barcode number typed by hand.
 // The food data comes from the free Open Food Facts API.
 
 import { supabase } from "./supabase.js";
@@ -12,6 +12,10 @@ import { bmr, nutritionTargets } from "./plan.js";
 renderNavigation();
 
 let user = null;
+let cameraStream = null;
+let scanFrame = null;
+let barcodeDetector = null;
+let detecting = false;
 
 start();
 
@@ -29,10 +33,95 @@ async function start() {
   await loadScans();
 
   byId("searchButton").addEventListener("click", search);
+  byId("scanButton").addEventListener("click", openScanner);
+  byId("closeScanner").addEventListener("click", closeScanner);
   byId("barcodeInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter") search();
   });
 }
+
+async function openScanner() {
+  if (!("BarcodeDetector" in window)) {
+    byId("cameraStatus").textContent =
+      "Camera barcode detection is not supported by this browser. Use the editable manual barcode field below.";
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    byId("cameraStatus").textContent =
+      "This browser cannot open the camera. Use manual barcode entry.";
+    return;
+  }
+
+  try {
+    const supported = await window.BarcodeDetector.getSupportedFormats();
+    const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
+    const formats = wanted.filter(function (format) {
+      return supported.indexOf(format) !== -1;
+    });
+    barcodeDetector = new window.BarcodeDetector(
+      formats.length > 0 ? { formats: formats } : undefined,
+    );
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" } },
+      audio: false,
+    });
+    byId("scannerVideo").srcObject = cameraStream;
+    await byId("scannerVideo").play();
+    byId("scannerWrap").classList.remove("hidden");
+    byId("scanButton").disabled = true;
+    byId("cameraStatus").textContent = "Point the camera at the product barcode.";
+    scanFrame = window.requestAnimationFrame(detectBarcode);
+  } catch (error) {
+    console.error(error);
+    byId("cameraStatus").textContent =
+      error && error.name === "NotAllowedError"
+        ? "Camera permission was not allowed. You can still enter the barcode manually."
+        : "The camera could not start. You can still enter the barcode manually.";
+    closeScanner(true);
+  }
+}
+
+async function detectBarcode() {
+  if (!cameraStream) return;
+  if (!detecting && byId("scannerVideo").readyState >= 2) {
+    detecting = true;
+    try {
+      const results = await barcodeDetector.detect(byId("scannerVideo"));
+      if (results.length > 0 && results[0].rawValue) {
+        byId("barcodeInput").value = results[0].rawValue;
+        byId("cameraStatus").textContent = "Barcode captured: " + results[0].rawValue;
+        closeScanner(true);
+        await search();
+        detecting = false;
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    detecting = false;
+  }
+  scanFrame = window.requestAnimationFrame(detectBarcode);
+}
+
+function closeScanner(keepStatus) {
+  if (scanFrame) window.cancelAnimationFrame(scanFrame);
+  scanFrame = null;
+  detecting = false;
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(function (track) {
+      track.stop();
+    });
+  }
+  cameraStream = null;
+  byId("scannerVideo").srcObject = null;
+  byId("scannerWrap").classList.add("hidden");
+  byId("scanButton").disabled = false;
+  if (!keepStatus) byId("cameraStatus").textContent = "";
+}
+
+window.addEventListener("pagehide", function () {
+  closeScanner(true);
+});
 
 function showTargets(fitness) {
   const targets = nutritionTargets(fitness);
@@ -133,26 +222,51 @@ function showProduct(scan) {
   card.classList.remove("hidden");
   card.innerHTML =
     '<div class="row" style="align-items:flex-start;gap:14px">' +
-      (scan.image_url
-        ? '<img src="' + scan.image_url + '" alt="" style="width:80px;border-radius:12px" />'
-        : "") +
-      "<div style='flex:1'><h2 style='margin:0'>" + scan.food_name + "</h2>" +
-      '<p class="small muted" style="margin:4px 0 0">' + (scan.brand || "No brand") +
-      " · barcode " + scan.barcode + "</p></div>" +
-      '<div class="grade ' + gradeClass(scan.grade) + '">' + (scan.grade || "?") + "</div>" +
+    (scan.image_url
+      ? '<img src="' + scan.image_url + '" alt="" style="width:80px;border-radius:12px" />'
+      : "") +
+    "<div style='flex:1'><h2 style='margin:0'>" +
+    scan.food_name +
+    "</h2>" +
+    '<p class="small muted" style="margin:4px 0 0">' +
+    (scan.brand || "No brand") +
+    " · barcode " +
+    scan.barcode +
+    "</p></div>" +
+    '<div class="grade ' +
+    gradeClass(scan.grade) +
+    '">' +
+    (scan.grade || "?") +
+    "</div>" +
     "</div>" +
     '<div class="info-grid">' +
-      '<div class="info-box"><p class="stat-label">Calories /100g</p><b>' +
-        (scan.calories ? round(scan.calories) : "-") + "</b></div>" +
-      '<div class="info-box"><p class="stat-label">Protein</p><b>' + round(macros.protein_g) + " g</b></div>" +
-      '<div class="info-box"><p class="stat-label">Carbs</p><b>' + round(macros.carbs_g) + " g</b></div>" +
-      '<div class="info-box"><p class="stat-label">Fat</p><b>' + round(macros.fat_g) + " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Calories /100g</p><b>' +
+    (scan.calories ? round(scan.calories) : "-") +
+    "</b></div>" +
+    '<div class="info-box"><p class="stat-label">Protein</p><b>' +
+    round(macros.protein_g) +
+    " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Carbs</p><b>' +
+    round(macros.carbs_g) +
+    " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Fat</p><b>' +
+    round(macros.fat_g) +
+    " g</b></div>" +
     "</div>" +
-    '<p class="small">' + (scan.summary || "") + "</p>" +
-    (scan.serving_size ? '<p class="small muted">Serving size: ' + scan.serving_size + "</p>" : "") +
+    '<p class="small">' +
+    (scan.summary || "") +
+    "</p>" +
+    (scan.serving_size
+      ? '<p class="small muted">Serving size: ' + scan.serving_size + "</p>"
+      : "") +
     ((scan.allergens || []).length > 0
       ? '<p class="small muted">Allergens: ' +
-        scan.allergens.map(function (item) { return item.replace("en:", ""); }).join(", ") + "</p>"
+        scan.allergens
+          .map(function (item) {
+            return item.replace("en:", "");
+          })
+          .join(", ") +
+        "</p>"
       : "") +
     (scan.ingredients
       ? "<div><h3>Ingredients</h3><p class='small muted'>" + scan.ingredients + "</p></div>"
@@ -179,8 +293,16 @@ async function loadScans() {
     row.className = "list-row";
     row.style.cursor = "pointer";
     row.innerHTML =
-      "<span>" + scan.food_name + '<br><span class="small muted">' + (scan.brand || "") + "</span></span>" +
-      '<span class="grade ' + gradeClass(scan.grade) + '">' + (scan.grade || "?") + "</span>";
+      "<span>" +
+      scan.food_name +
+      '<br><span class="small muted">' +
+      (scan.brand || "") +
+      "</span></span>" +
+      '<span class="grade ' +
+      gradeClass(scan.grade) +
+      '">' +
+      (scan.grade || "?") +
+      "</span>";
     row.addEventListener("click", function () {
       showProduct(scan);
       window.scrollTo({ top: 0, behavior: "smooth" });

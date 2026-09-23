@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - profile page
+// AI-Fitness Trainer - profile page
 // ===============================================
 
 import { supabase } from "./supabase.js";
@@ -12,7 +12,14 @@ import {
   toast,
   logout,
 } from "./main.js";
-import { GOALS, generatePlan, savePlan, nutritionTargets, levelFromXp, estimateWeeks } from "./plan.js";
+import {
+  GOALS,
+  generatePlan,
+  savePlan,
+  nutritionTargets,
+  levelFromXp,
+  estimateWeeks,
+} from "./plan.js";
 
 const BADGES = [
   { type: "onboarding_done", label: "Plan created", icon: "🗺️" },
@@ -85,7 +92,12 @@ function fillForm() {
 async function fillNumbers() {
   byId("calText").textContent = (fitness.daily_calories || "-") + " kcal";
   byId("macroText").textContent =
-    (fitness.protein_g || "-") + " / " + (fitness.carbs_g || "-") + " / " + (fitness.fat_g || "-") + " g";
+    (fitness.protein_g || "-") +
+    " / " +
+    (fitness.carbs_g || "-") +
+    " / " +
+    (fitness.fat_g || "-") +
+    " g";
 
   const { count: workouts } = await supabase
     .from("workout_logs")
@@ -99,14 +111,22 @@ async function fillNumbers() {
 
 async function drawBadges() {
   const { data } = await supabase.from("achievements").select("badge_type").eq("user_id", user.id);
-  const earned = (data || []).map(function (row) { return row.badge_type; });
+  const earned = (data || []).map(function (row) {
+    return row.badge_type;
+  });
 
   byId("badgeGrid").innerHTML = BADGES.map(function (badge) {
     const has = earned.indexOf(badge.type) !== -1;
     return (
-      '<div class="badge-card' + (has ? "" : " locked") + '">' +
-      '<span class="badge-icon">' + badge.icon + "</span>" +
-      '<b class="small">' + badge.label + "</b></div>"
+      '<div class="badge-card' +
+      (has ? "" : " locked") +
+      '">' +
+      '<span class="badge-icon">' +
+      badge.icon +
+      "</span>" +
+      '<b class="small">' +
+      badge.label +
+      "</b></div>"
     );
   }).join("");
 }

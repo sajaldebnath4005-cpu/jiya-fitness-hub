@@ -1,4 +1,4 @@
-# Jiya Fit Buddy (HTML + CSS + JavaScript)
+# AI-Fitness Trainer (HTML + CSS + JavaScript)
 
 A fitness app built with plain HTML5, CSS3 and vanilla JavaScript.
 The database and login come from Supabase (Lovable Cloud) through the official

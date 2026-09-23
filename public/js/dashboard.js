@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - dashboard page
+// AI-Fitness Trainer - dashboard page
 // ===============================================
 // Reads everything for today from the database and shows it in cards.
 
@@ -20,7 +20,6 @@ import { levelFromXp, WEEKDAYS } from "./plan.js";
 
 const WATER_GOAL_ML = 2500;
 const STEP_GOAL = 8000;
-const SLEEP_GOAL_HOURS = 8;
 
 renderNavigation();
 
@@ -83,13 +82,6 @@ async function loadDashboard(user) {
     .eq("date", today)
     .maybeSingle();
 
-  const { data: sleepLog } = await supabase
-    .from("sleep_logs")
-    .select("hours")
-    .eq("user_id", user.id)
-    .eq("date", today)
-    .maybeSingle();
-
   const { data: weightLogs } = await supabase
     .from("body_metrics_logs")
     .select("weight, date")
@@ -111,9 +103,12 @@ async function loadDashboard(user) {
   if (workoutDay && !workoutDay.is_rest) {
     byId("workoutName").textContent = workoutDay.name;
     byId("workoutMeta").textContent =
-      workoutDay.prescriptions.length + " exercises · " +
-      workoutDay.estimated_duration + " min · ~" +
-      workoutDay.estimated_calories + " kcal";
+      workoutDay.prescriptions.length +
+      " exercises · " +
+      workoutDay.estimated_duration +
+      " min · ~" +
+      workoutDay.estimated_calories +
+      " kcal";
   } else {
     byId("workoutName").textContent = "Rest / Active Recovery";
     byId("workoutMeta").textContent = "Take a walk, stretch and drink water.";
@@ -132,14 +127,19 @@ async function loadDashboard(user) {
   });
   byId("caloriesBurned").textContent = round(burned) + " kcal";
   byId("caloriesTargetText").textContent =
-    "Daily calorie target: " + (fitness.daily_calories || "-") + " kcal · protein " +
-    (fitness.protein_g || "-") + " g";
+    "Daily calorie target: " +
+    (fitness.daily_calories || "-") +
+    " kcal · protein " +
+    (fitness.protein_g || "-") +
+    " g";
 
   // ---------- weight ----------
-  const startWeight = weightLogs && weightLogs.length > 0 ? Number(weightLogs[0].weight) : Number(fitness.weight);
-  const currentWeight = weightLogs && weightLogs.length > 0
-    ? Number(weightLogs[weightLogs.length - 1].weight)
-    : Number(fitness.weight);
+  const startWeight =
+    weightLogs && weightLogs.length > 0 ? Number(weightLogs[0].weight) : Number(fitness.weight);
+  const currentWeight =
+    weightLogs && weightLogs.length > 0
+      ? Number(weightLogs[weightLogs.length - 1].weight)
+      : Number(fitness.weight);
   const targetWeight = fitness.target_weight ? Number(fitness.target_weight) : null;
 
   byId("weightNow").textContent = currentWeight ? currentWeight + " kg" : "- kg";
@@ -154,7 +154,7 @@ async function loadDashboard(user) {
     byId("weightText").textContent = "Add a target weight in your profile to see progress.";
   }
 
-  // ---------- steps, water, sleep, xp ----------
+  // ---------- steps, water and xp ----------
   const steps = stepLog ? stepLog.steps : 0;
   byId("stepsValue").textContent = steps;
   byId("stepsBar").style.width = calculateProgress(steps, STEP_GOAL) + "%";
@@ -166,10 +166,6 @@ async function loadDashboard(user) {
   byId("waterValue").textContent = waterMl + " ml";
   byId("waterBar").style.width = calculateProgress(waterMl, WATER_GOAL_ML) + "%";
 
-  const sleepHours = sleepLog ? Number(sleepLog.hours) : 0;
-  byId("sleepValue").textContent = sleepHours ? sleepHours + " h" : "- h";
-  byId("sleepBar").style.width = calculateProgress(sleepHours, SLEEP_GOAL_HOURS) + "%";
-
   byId("xpValue").textContent = (profile && profile.xp) || 0;
   byId("xpBar").style.width = calculateProgress(level.into, level.next) + "%";
 
@@ -180,10 +176,19 @@ async function loadDashboard(user) {
       .map(function (item) {
         return (
           '<div class="exercise-item">' +
-          '<div style="flex:1"><b>' + item.name + "</b>" +
+          '<div style="flex:1"><b>' +
+          item.name +
+          "</b>" +
           '<p class="small muted" style="margin:2px 0 0">' +
-          item.sets + " sets × " + item.reps + " · " + item.rest_seconds + "s rest</p></div>" +
-          '<a class="btn btn-ghost btn-small" href="exercises.html?slug=' + item.slug + '">View</a>' +
+          item.sets +
+          " sets × " +
+          item.reps +
+          " · " +
+          item.rest_seconds +
+          "s rest</p></div>" +
+          '<a class="btn btn-ghost btn-small" href="exercises.html?slug=' +
+          item.slug +
+          '">View</a>' +
           "</div>"
         );
       })

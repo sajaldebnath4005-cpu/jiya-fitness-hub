@@ -1,32 +1,75 @@
 /* ===============================================
-   Jiya Fit Buddy - responsive rules (mobile first)
+   AI-Fitness Trainer - responsive rules (mobile first)
    =============================================== */
 
 @media (max-width: 900px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 720px) {
-  .top-nav { display: none; }
-  .bottom-nav { display: flex; justify-content: space-around; }
+  .top-nav {
+    display: none;
+  }
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+  }
   .bottom-nav .nav-link {
     flex-direction: column;
     gap: 3px;
     font-size: 11px;
     padding: 6px 8px;
   }
-  .icon-button { margin-left: auto; }
-  .brand-text { font-size: 15px; }
+  .icon-button {
+    margin-left: auto;
+  }
+  .brand-text {
+    font-size: 15px;
+  }
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .jiya-launch {
+    margin-left: auto;
+    height: 42px;
+    padding: 0 10px;
+    font-size: 10px;
+  }
 
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
 
-  h1 { font-size: 24px; }
-  .container { padding: 18px 14px; }
-  .hero-title { font-size: 32px !important; }
+  h1 {
+    font-size: 24px;
+  }
+  .container {
+    padding: 18px 14px;
+  }
+  .hero-title {
+    font-size: 32px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-text {
+    display: none;
+  }
 }
 
 @media (max-width: 420px) {
-  .bottom-nav .nav-link span:not(.nav-icon) { display: none; }
-  .bottom-nav .nav-icon { font-size: 20px; }
+  .bottom-nav .nav-link span:not(.nav-icon) {
+    display: none;
+  }
+  .bottom-nav .nav-icon {
+    font-size: 20px;
+  }
 }

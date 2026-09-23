@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - workout page
+// AI-Fitness Trainer - workout page
 // ===============================================
 // Shows the weekly plan, lets the user tick exercises, swap an exercise
 // for an alternative, and save the finished workout into the database.
@@ -27,6 +27,7 @@ let planRow = null;
 let days = [];
 let selectedDay = null;
 let completed = []; // exercise ids ticked on screen
+let exerciseTimes = {}; // measured seconds for completed exercises
 
 start();
 
@@ -99,6 +100,7 @@ function drawDayStrip() {
     chip.addEventListener("click", function () {
       selectedDay = day;
       completed = [];
+      exerciseTimes = {};
       drawDayStrip();
       drawDay();
     });
@@ -140,7 +142,10 @@ function drawDay() {
     check.checked = done;
     check.addEventListener("change", function () {
       if (check.checked) completed.push(item.exercise_id);
-      else completed = completed.filter(function (id) { return id !== item.exercise_id; });
+      else
+        completed = completed.filter(function (id) {
+          return id !== item.exercise_id;
+        });
       drawDay();
     });
 
@@ -151,15 +156,26 @@ function drawDay() {
     const main = document.createElement("div");
     main.className = "exercise-main";
     main.innerHTML =
-      '<p class="exercise-name" style="margin:0">' + item.name + "</p>" +
+      '<p class="exercise-name" style="margin:0">' +
+      item.name +
+      "</p>" +
       '<p class="small muted" style="margin:3px 0 0">' +
-      item.sets + " sets × " + item.reps + " · rest " + item.rest_seconds + "s" +
+      item.sets +
+      " sets × " +
+      item.reps +
+      " · rest " +
+      item.rest_seconds +
+      "s" +
       (exercise ? " · " + exercise.muscle_group : "") +
       "</p>";
     if (exercise) {
       main.style.cursor = "pointer";
       main.addEventListener("click", function () {
-        openExerciseSheet(exercise, item);
+        openExerciseSheet(exercise, item, function (elapsedSeconds) {
+          if (completed.indexOf(item.exercise_id) === -1) completed.push(item.exercise_id);
+          exerciseTimes[item.exercise_id] = elapsedSeconds;
+          drawDay();
+        });
       });
     }
 
@@ -194,7 +210,9 @@ async function replaceExercise(index) {
   const target = findExercise(item.exercise_id);
   if (!target) return;
 
-  const usedIds = selectedDay.prescriptions.map(function (p) { return p.exercise_id; });
+  const usedIds = selectedDay.prescriptions.map(function (p) {
+    return p.exercise_id;
+  });
   const substitute = findSubstitute(target, allExercises, fitness, usedIds);
   if (!substitute) {
     toast("No other exercise fits your equipment and goal.", "error");
@@ -209,13 +227,17 @@ async function replaceExercise(index) {
     reps: item.reps,
     rest_seconds: item.rest_seconds,
   };
-  completed = completed.filter(function (id) { return id !== item.exercise_id; });
+  completed = completed.filter(function (id) {
+    return id !== item.exercise_id;
+  });
 
   const { error } = await supabase
     .from("workout_days")
     .update({
       prescriptions: selectedDay.prescriptions,
-      exercise_ids: selectedDay.prescriptions.map(function (p) { return p.exercise_id; }),
+      exercise_ids: selectedDay.prescriptions.map(function (p) {
+        return p.exercise_id;
+      }),
     })
     .eq("id", selectedDay.id);
 
@@ -237,7 +259,13 @@ async function finishWorkout() {
   const total = selectedDay.prescriptions.length;
   const part = completed.length / total;
   const calories = Math.round(selectedDay.estimated_calories * part);
-  const duration = Math.round(selectedDay.estimated_duration * part);
+  const measuredSeconds = completed.reduce(function (sum, id) {
+    return sum + (exerciseTimes[id] || 0);
+  }, 0);
+  const duration =
+    measuredSeconds > 0
+      ? Math.max(1, Math.round(measuredSeconds / 60))
+      : Math.round(selectedDay.estimated_duration * part);
 
   const { error } = await supabase.from("workout_logs").insert({
     user_id: user.id,
@@ -246,8 +274,17 @@ async function finishWorkout() {
     workout_name: selectedDay.name,
     exercise_ids_completed: completed,
     sets_logged: selectedDay.prescriptions
-      .filter(function (p) { return completed.indexOf(p.exercise_id) !== -1; })
-      .map(function (p) { return { name: p.name, sets: p.sets, reps: p.reps }; }),
+      .filter(function (p) {
+        return completed.indexOf(p.exercise_id) !== -1;
+      })
+      .map(function (p) {
+        return {
+          name: p.name,
+          sets: p.sets,
+          reps: p.reps,
+          duration_seconds: exerciseTimes[p.exercise_id] || 0,
+        };
+      }),
     duration: duration,
     calories_burned: calories,
   });
@@ -262,6 +299,7 @@ async function finishWorkout() {
 
   toast("Workout saved! +" + (20 + completed.length * 5) + " XP");
   completed = [];
+  exerciseTimes = {};
   drawDay();
   await loadHistory();
 }
@@ -269,7 +307,10 @@ async function finishWorkout() {
 async function giveBadge(type, label) {
   await supabase
     .from("achievements")
-    .upsert({ user_id: user.id, badge_type: type, label: label }, { onConflict: "user_id,badge_type" });
+    .upsert(
+      { user_id: user.id, badge_type: type, label: label },
+      { onConflict: "user_id,badge_type" },
+    );
 }
 
 async function loadHistory() {
@@ -288,9 +329,16 @@ async function loadHistory() {
   box.innerHTML = data
     .map(function (log) {
       return (
-        '<div class="list-row"><span>' + log.date + " · " + log.workout_name + "</span>" +
-        '<span class="lime">' + log.exercise_ids_completed.length + " ex · " +
-        log.calories_burned + " kcal</span></div>"
+        '<div class="list-row"><span>' +
+        log.date +
+        " · " +
+        log.workout_name +
+        "</span>" +
+        '<span class="lime">' +
+        log.exercise_ids_completed.length +
+        " ex · " +
+        log.calories_burned +
+        " kcal</span></div>"
       );
     })
     .join("");

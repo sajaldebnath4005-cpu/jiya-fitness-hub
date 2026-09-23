@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - friends page
+// AI-Fitness Trainer - friends page
 // ===============================================
 // Uses the database functions search_users, accept_friend_request and
 // remove_friend that already exist in the backend.
@@ -37,10 +37,18 @@ function personRow(person, buttons) {
   const row = document.createElement("div");
   row.className = "person-row";
   row.innerHTML =
-    '<div class="person-avatar">' + initials(person) + "</div>" +
-    '<div class="person-main"><p class="person-name" style="margin:0">' + (person.name || person.username) +
-    '</p><p class="small muted" style="margin:2px 0 0">@' + person.username + " · " +
-    person.xp + " XP · 🔥 " + person.streak_days + "</p></div>";
+    '<div class="person-avatar">' +
+    initials(person) +
+    "</div>" +
+    '<div class="person-main"><p class="person-name" style="margin:0">' +
+    (person.name || person.username) +
+    '</p><p class="small muted" style="margin:2px 0 0">@' +
+    person.username +
+    " · " +
+    person.xp +
+    " XP · 🔥 " +
+    person.streak_days +
+    "</p></div>";
   buttons.forEach(function (button) {
     row.appendChild(button);
   });
@@ -169,7 +177,12 @@ async function loadRequests() {
       const tag = document.createElement("span");
       tag.className = "pill";
       tag.textContent = "Waiting";
-      buttons = [tag, makeButton("Cancel", "btn-ghost", function () { decline(request); })];
+      buttons = [
+        tag,
+        makeButton("Cancel", "btn-ghost", function () {
+          decline(request);
+        }),
+      ];
     }
     box.appendChild(personRow(person, buttons));
   }
