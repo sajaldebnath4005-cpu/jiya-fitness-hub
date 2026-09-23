@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - responsive rules (mobile first)
+   AI-Fitness Trainer - responsive rules (mobile first)
    =============================================== */
 
 @media (max-width: 900px) {
@@ -18,6 +18,9 @@
   }
   .icon-button { margin-left: auto; }
   .brand-text { font-size: 15px; }
+  .brand-logo { width: 36px; height: 36px; }
+  .jiya-launch { margin-left: auto; width: 42px; height: 42px; padding: 0; }
+  .jiya-launch span { display: none; }
 
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 

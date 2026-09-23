@@ -6,18 +6,20 @@ import { useEffect } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Jiya Fit Buddy - Your AI Fitness Trainer" },
+      { title: "AI-Fitness Trainer | Personalised Workouts & Fitness Coaching" },
       {
         name: "description",
         content:
-          "Personalised workout plans, step/water/sleep tracking and an AI fitness coach.",
+          "Personalised workout plans, step, water, nutrition, weight and progress tracking with Coach Jiya.",
       },
-      { property: "og:title", content: "Jiya Fit Buddy - Your AI Fitness Trainer" },
+      { property: "og:title", content: "AI-Fitness Trainer" },
       {
         property: "og:description",
         content:
-          "Personalised workout plans, step/water/sleep tracking and an AI fitness coach.",
+          "Personalised workout plans and fitness tracking with Coach Jiya.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Redirecting,
@@ -30,7 +32,7 @@ function Redirecting() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
-      <p className="text-sm text-muted-foreground">Loading Jiya Fit Buddy…</p>
+      <p className="text-sm text-muted-foreground">Loading AI-Fitness Trainer…</p>
     </div>
   );
 }

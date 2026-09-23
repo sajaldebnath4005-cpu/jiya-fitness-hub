@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - main stylesheet (design system)
+   AI-Fitness Trainer - main stylesheet (design system)
    Dark athletic theme with a lime green accent.
    =============================================== */
 
@@ -81,6 +81,14 @@ a:hover { text-decoration: underline; }
 }
 .brand:hover { text-decoration: none; }
 
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex: 0 0 auto;
+}
+
 .brand-mark {
   width: 34px;
   height: 34px;
@@ -100,6 +108,13 @@ a:hover { text-decoration: underline; }
   display: flex;
   gap: 4px;
   margin-left: auto;
+}
+
+.jiya-launch {
+  margin-left: 4px;
+  flex: 0 0 auto;
+  padding: 10px 13px;
+  font-size: 12px;
 }
 
 .nav-link {
@@ -168,6 +183,38 @@ a:hover { text-decoration: underline; }
   padding: 8px 6px;
   z-index: 30;
 }
+
+.jiya-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(460px, 100%);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.jiya-panel-head {
+  min-height: 70px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.jiya-panel-head span {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.jiya-frame { width: 100%; height: 100%; border: 0; background: var(--background); }
+.panel-open { overflow: hidden; }
 
 /* ---------- cards ---------- */
 
@@ -393,4 +440,9 @@ input:focus, select:focus, textarea:focus {
   padding: 30px;
   text-align: center;
   color: var(--text-muted);
+}
+
+@media (max-width: 1180px) {
+  .top-nav .nav-link span:not(.nav-icon) { display: none; }
+  .top-nav .nav-link { padding: 9px; }
 }

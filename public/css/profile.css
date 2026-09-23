@@ -1,5 +1,5 @@
 /* ===============================================
-   Jiya Fit Buddy - profile and AI coach pages
+   AI-Fitness Trainer - profile and AI coach pages
    =============================================== */
 
 .profile-top {
@@ -84,3 +84,9 @@
   cursor: pointer;
 }
 .suggestion:hover { border-color: var(--primary); color: var(--primary); }
+
+.panel-mode { padding-bottom: 0; }
+.panel-mode .container { padding: 14px; min-height: 100vh; }
+.panel-mode .coach-banner { padding: 12px; }
+.panel-mode .chat-window { height: calc(100vh - 270px); min-height: 240px; }
+.panel-mode #clearButton { display: none; }
