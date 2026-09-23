@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - secure AI endpoint for Coach Jiya
+// AI-Fitness Trainer - secure AI endpoint for Coach Jiya
 // ===============================================
 // The browser NEVER sees the AI key. The page sends the user's question plus
 // the Supabase access token here; this server code checks the token, then
@@ -8,7 +8,22 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 
-const MODEL = 'google/gemini-2.5-flash'
+const MODEL = 'openai/gpt-6-astra'
+const FITNESS_ONLY_REPLY =
+  "I'm here to assist you with fitness-related topics only. You can ask me about workouts, exercises, nutrition, calories, recovery, progress, or your fitness goals."
+
+function isClearlyOffTopic(message: string) {
+  const text = message.toLowerCase()
+  const offTopicPatterns = [
+    /prime minister/,
+    /president of/,
+    /capital of/,
+    /tell me (a|another) joke/,
+    /write (a|me a|the) (python|javascript|java|c\+\+|php|sql) (program|code|script)/,
+    /solve (this |the )?(math|mathematics|equation|algebra)/,
+  ]
+  return offTopicPatterns.some((pattern) => pattern.test(text))
+}
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -53,15 +68,23 @@ export const Route = createFileRoute('/api/public/coach')({
         const message = (payload.message ?? '').toString().slice(0, 1000).trim()
         if (!message) return json({ error: 'Type a question first.' }, 400)
 
+        if (isClearlyOffTopic(message)) {
+          return json({ reply: FITNESS_ONLY_REPLY })
+        }
+
         const facts = (payload.facts ?? '').toString().slice(0, 2000)
         const history = Array.isArray(payload.history) ? payload.history.slice(-10) : []
 
         const systemPrompt =
-          'You are Jiya, a friendly Indian fitness coach inside the Jiya Fit Buddy app. ' +
-          'Answer questions about workouts, exercises, exercise replacement, goals, calories, ' +
-          'nutrition, recovery, progress and daily activity. Use the user facts below to make ' +
-          'every answer personal. Be practical and encouraging, use simple English, and keep ' +
-          'answers under 150 words unless the user asks for a full plan. Never give medical ' +
+          'You are Jiya, the fitness assistant inside the AI-Fitness Trainer application. ' +
+          'You may answer only about exercises, workouts, training, strength, cardio, flexibility, ' +
+          'mobility, recovery, fitness goals, workout plans, calories, protein, carbohydrates, fat, ' +
+          'fitness nutrition, hydration, steps, weight, workout progress, fitness progress, streaks, ' +
+          'exercise completion, and how to use AI-Fitness Trainer. If a request is unrelated to those ' +
+          'topics, reply with exactly this sentence and nothing else: "' + FITNESS_ONLY_REPLY + '" ' +
+          'Do not answer the unrelated request after the restriction sentence. Use the user facts below ' +
+          'to personalize relevant answers. Be practical and encouraging, use simple English, and keep ' +
+          'answers under 150 words unless the user asks for a full fitness plan. Never give medical ' +
           'diagnoses; suggest seeing a doctor for pain or illness.\n\nUSER FACTS:\n' +
           facts
 
@@ -75,13 +98,18 @@ export const Route = createFileRoute('/api/public/coach')({
         ]
 
         // 3. Ask the AI gateway.
-        const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+        const response = await fetch('https://ai.gateway.lovable.dev/v1/responses', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${LOVABLE_API_KEY}`,
             'content-type': 'application/json',
           },
-          body: JSON.stringify({ model: MODEL, messages }),
+          body: JSON.stringify({
+            model: MODEL,
+            input: messages,
+            reasoning: { effort: 'medium', summary: 'auto' },
+            store: false,
+          }),
         })
 
         if (response.status === 429) {
@@ -96,9 +124,17 @@ export const Route = createFileRoute('/api/public/coach')({
         }
 
         const result = (await response.json()) as {
-          choices?: Array<{ message?: { content?: string } }>
+          output_text?: string
+          output?: Array<{ content?: Array<{ type?: string; text?: string }> }>
         }
-        const reply = result.choices?.[0]?.message?.content?.trim()
+        const reply = (
+          result.output_text ??
+          result.output
+            ?.flatMap((item) => item.content ?? [])
+            .find((item) => item.type === 'output_text')
+            ?.text ??
+          ''
+        ).trim()
         if (!reply) return json({ error: 'Coach Jiya had nothing to say. Try again.' }, 502)
 
         return json({ reply })

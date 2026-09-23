@@ -72,7 +72,7 @@ async function openScanner() {
       error && error.name === "NotAllowedError"
         ? "Camera permission was not allowed. You can still enter the barcode manually."
         : "The camera could not start. You can still enter the barcode manually.";
-    closeScanner();
+    closeScanner(true);
   }
 }
 
