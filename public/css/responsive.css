@@ -37,12 +37,9 @@
   }
   .jiya-launch {
     margin-left: auto;
-    width: 42px;
     height: 42px;
-    padding: 0;
-  }
-  .jiya-launch span {
-    display: none;
+    padding: 0 10px;
+    font-size: 10px;
   }
 
   .grid-2,
@@ -59,6 +56,12 @@
   }
   .hero-title {
     font-size: 32px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-text {
+    display: none;
   }
 }
 
