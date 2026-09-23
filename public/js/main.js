@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - shared helper functions
+// AI-Fitness Trainer - shared helper functions
 // ===============================================
 // Every page imports from this file. Keep the functions small and simple.
 
@@ -93,7 +93,6 @@ const MAIN_LINKS = [
 const EXTRA_LINKS = [
   { text: "Steps", page: "steps.html", icon: "👟" },
   { text: "Water", page: "water.html", icon: "💧" },
-  { text: "Sleep", page: "sleep.html", icon: "😴" },
   { text: "Nutrition", page: "nutrition.html", icon: "🍎" },
   { text: "Leaderboard", page: "leaderboard.html", icon: "🏆" },
   { text: "Notifications", page: "notifications.html", icon: "🔔" },
@@ -115,19 +114,21 @@ function linkHtml(link, active) {
 // Draws the top navigation and the mobile bottom navigation.
 export function renderNavigation() {
   const page = currentPage();
+  const logoUrl = "/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg";
 
   const header = document.createElement("header");
   header.className = "app-header";
   header.innerHTML =
     '<a class="brand" href="dashboard.html">' +
-    '<span class="brand-mark">J</span>' +
-    '<span class="brand-text">Jiya <b>Fit Buddy</b></span>' +
+    '<img class="brand-logo" src="' + logoUrl + '" alt="AI-Fitness Trainer" />' +
+    '<span class="brand-text"><b>AI-Fitness</b> Trainer</span>' +
     "</a>" +
     '<nav class="top-nav">' +
     MAIN_LINKS.map(function (link) {
       return linkHtml(link, link.page === page);
     }).join("") +
     "</nav>" +
+    (page === "ai-coach.html" ? "" : '<button class="btn btn-primary jiya-launch" id="jiyaLaunch" type="button">💬 <span>TALK WITH JIYA</span></button>') +
     '<button class="icon-button" id="menuButton" title="More pages">☰</button>';
 
   const drawer = document.createElement("div");
@@ -151,6 +152,26 @@ export function renderNavigation() {
   document.body.prepend(header);
   document.body.appendChild(drawer);
   document.body.appendChild(bottom);
+
+  if (page !== "ai-coach.html") {
+    const coachPanel = document.createElement("div");
+    coachPanel.className = "jiya-panel hidden";
+    coachPanel.id = "jiyaPanel";
+    coachPanel.innerHTML =
+      '<div class="jiya-panel-head"><div><b>Talk with Jiya</b><span>Your fitness coach</span></div>' +
+      '<button class="icon-button" id="jiyaClose" type="button" aria-label="Close Jiya chat">✕</button></div>' +
+      '<iframe class="jiya-frame" src="ai-coach.html?panel=1" title="Talk with Jiya"></iframe>';
+    document.body.appendChild(coachPanel);
+
+    byId("jiyaLaunch").addEventListener("click", function () {
+      coachPanel.classList.remove("hidden");
+      document.body.classList.add("panel-open");
+    });
+    byId("jiyaClose").addEventListener("click", function () {
+      coachPanel.classList.add("hidden");
+      document.body.classList.remove("panel-open");
+    });
+  }
 
   byId("menuButton").addEventListener("click", function () {
     drawer.classList.toggle("hidden");

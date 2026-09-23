@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - AI coach chat page
+// AI-Fitness Trainer - AI coach chat page
 // ===============================================
 // The page never holds the AI key. It sends the question and the login token
 // to our own secure endpoint /api/public/coach, which talks to the AI.
@@ -24,7 +24,9 @@ const SUGGESTIONS = [
   "I feel sore. Should I train today?",
 ];
 
-renderNavigation();
+const isPanel = new URLSearchParams(window.location.search).get("panel") === "1";
+if (isPanel) document.body.classList.add("panel-mode");
+else renderNavigation();
 
 let user = null;
 let facts = "";
@@ -104,13 +106,9 @@ async function buildFacts(profile, fitness) {
     .from("step_logs").select("steps").eq("user_id", user.id).eq("date", today).maybeSingle();
   const { data: waters } = await supabase
     .from("water_logs").select("ml").eq("user_id", user.id).eq("date", today);
-  const { data: sleep } = await supabase
-    .from("sleep_logs").select("hours").eq("user_id", user.id).eq("date", today).maybeSingle();
-
   let ml = 0;
   (waters || []).forEach(function (row) { ml = ml + row.ml; });
-  lines.push("Today: " + (steps ? steps.steps : 0) + " steps, " + ml + " ml water, sleep " +
-    (sleep ? sleep.hours : "not logged"));
+  lines.push("Today: " + (steps ? steps.steps : 0) + " steps and " + ml + " ml water");
 
   return lines.join("\n");
 }

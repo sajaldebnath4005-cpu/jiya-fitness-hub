@@ -1,8 +1,8 @@
 // ===============================================
-// Jiya Fit Buddy - nutrition page
+// AI-Fitness Trainer - nutrition page
 // ===============================================
 // Shows the daily calorie and macro targets, and looks up a packaged food
-// by its barcode NUMBER (typed by hand - there is no camera scanner).
+// by camera scan or a barcode number typed by hand.
 // The food data comes from the free Open Food Facts API.
 
 import { supabase } from "./supabase.js";
@@ -12,6 +12,10 @@ import { bmr, nutritionTargets } from "./plan.js";
 renderNavigation();
 
 let user = null;
+let cameraStream = null;
+let scanFrame = null;
+let barcodeDetector = null;
+let detecting = false;
 
 start();
 
@@ -29,10 +33,86 @@ async function start() {
   await loadScans();
 
   byId("searchButton").addEventListener("click", search);
+  byId("scanButton").addEventListener("click", openScanner);
+  byId("closeScanner").addEventListener("click", closeScanner);
   byId("barcodeInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter") search();
   });
 }
+
+async function openScanner() {
+  if (!("BarcodeDetector" in window)) {
+    byId("cameraStatus").textContent =
+      "Camera barcode detection is not supported by this browser. Use the editable manual barcode field below.";
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    byId("cameraStatus").textContent = "This browser cannot open the camera. Use manual barcode entry.";
+    return;
+  }
+
+  try {
+    const supported = await window.BarcodeDetector.getSupportedFormats();
+    const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
+    const formats = wanted.filter(function (format) { return supported.indexOf(format) !== -1; });
+    barcodeDetector = new window.BarcodeDetector(formats.length > 0 ? { formats: formats } : undefined);
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" } },
+      audio: false,
+    });
+    byId("scannerVideo").srcObject = cameraStream;
+    await byId("scannerVideo").play();
+    byId("scannerWrap").classList.remove("hidden");
+    byId("scanButton").disabled = true;
+    byId("cameraStatus").textContent = "Point the camera at the product barcode.";
+    scanFrame = window.requestAnimationFrame(detectBarcode);
+  } catch (error) {
+    console.error(error);
+    byId("cameraStatus").textContent =
+      error && error.name === "NotAllowedError"
+        ? "Camera permission was not allowed. You can still enter the barcode manually."
+        : "The camera could not start. You can still enter the barcode manually.";
+    closeScanner();
+  }
+}
+
+async function detectBarcode() {
+  if (!cameraStream) return;
+  if (!detecting && byId("scannerVideo").readyState >= 2) {
+    detecting = true;
+    try {
+      const results = await barcodeDetector.detect(byId("scannerVideo"));
+      if (results.length > 0 && results[0].rawValue) {
+        byId("barcodeInput").value = results[0].rawValue;
+        byId("cameraStatus").textContent = "Barcode captured: " + results[0].rawValue;
+        closeScanner(true);
+        await search();
+        detecting = false;
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    detecting = false;
+  }
+  scanFrame = window.requestAnimationFrame(detectBarcode);
+}
+
+function closeScanner(keepStatus) {
+  if (scanFrame) window.cancelAnimationFrame(scanFrame);
+  scanFrame = null;
+  detecting = false;
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(function (track) { track.stop(); });
+  }
+  cameraStream = null;
+  byId("scannerVideo").srcObject = null;
+  byId("scannerWrap").classList.add("hidden");
+  byId("scanButton").disabled = false;
+  if (!keepStatus) byId("cameraStatus").textContent = "";
+}
+
+window.addEventListener("pagehide", function () { closeScanner(true); });
 
 function showTargets(fitness) {
   const targets = nutritionTargets(fitness);

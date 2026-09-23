@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - dashboard page
+// AI-Fitness Trainer - dashboard page
 // ===============================================
 // Reads everything for today from the database and shows it in cards.
 
@@ -20,7 +20,6 @@ import { levelFromXp, WEEKDAYS } from "./plan.js";
 
 const WATER_GOAL_ML = 2500;
 const STEP_GOAL = 8000;
-const SLEEP_GOAL_HOURS = 8;
 
 renderNavigation();
 
@@ -79,13 +78,6 @@ async function loadDashboard(user) {
   const { data: stepLog } = await supabase
     .from("step_logs")
     .select("steps")
-    .eq("user_id", user.id)
-    .eq("date", today)
-    .maybeSingle();
-
-  const { data: sleepLog } = await supabase
-    .from("sleep_logs")
-    .select("hours")
     .eq("user_id", user.id)
     .eq("date", today)
     .maybeSingle();
@@ -154,7 +146,7 @@ async function loadDashboard(user) {
     byId("weightText").textContent = "Add a target weight in your profile to see progress.";
   }
 
-  // ---------- steps, water, sleep, xp ----------
+  // ---------- steps, water and xp ----------
   const steps = stepLog ? stepLog.steps : 0;
   byId("stepsValue").textContent = steps;
   byId("stepsBar").style.width = calculateProgress(steps, STEP_GOAL) + "%";
@@ -165,10 +157,6 @@ async function loadDashboard(user) {
   });
   byId("waterValue").textContent = waterMl + " ml";
   byId("waterBar").style.width = calculateProgress(waterMl, WATER_GOAL_ML) + "%";
-
-  const sleepHours = sleepLog ? Number(sleepLog.hours) : 0;
-  byId("sleepValue").textContent = sleepHours ? sleepHours + " h" : "- h";
-  byId("sleepBar").style.width = calculateProgress(sleepHours, SLEEP_GOAL_HOURS) + "%";
 
   byId("xpValue").textContent = (profile && profile.xp) || 0;
   byId("xpBar").style.width = calculateProgress(level.into, level.next) + "%";

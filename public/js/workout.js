@@ -1,5 +1,5 @@
 // ===============================================
-// Jiya Fit Buddy - workout page
+// AI-Fitness Trainer - workout page
 // ===============================================
 // Shows the weekly plan, lets the user tick exercises, swap an exercise
 // for an alternative, and save the finished workout into the database.
@@ -27,6 +27,7 @@ let planRow = null;
 let days = [];
 let selectedDay = null;
 let completed = []; // exercise ids ticked on screen
+let exerciseTimes = {}; // measured seconds for completed exercises
 
 start();
 
@@ -99,6 +100,7 @@ function drawDayStrip() {
     chip.addEventListener("click", function () {
       selectedDay = day;
       completed = [];
+      exerciseTimes = {};
       drawDayStrip();
       drawDay();
     });
@@ -159,7 +161,11 @@ function drawDay() {
     if (exercise) {
       main.style.cursor = "pointer";
       main.addEventListener("click", function () {
-        openExerciseSheet(exercise, item);
+        openExerciseSheet(exercise, item, function (elapsedSeconds) {
+          if (completed.indexOf(item.exercise_id) === -1) completed.push(item.exercise_id);
+          exerciseTimes[item.exercise_id] = elapsedSeconds;
+          drawDay();
+        });
       });
     }
 
@@ -237,7 +243,12 @@ async function finishWorkout() {
   const total = selectedDay.prescriptions.length;
   const part = completed.length / total;
   const calories = Math.round(selectedDay.estimated_calories * part);
-  const duration = Math.round(selectedDay.estimated_duration * part);
+  const measuredSeconds = completed.reduce(function (sum, id) {
+    return sum + (exerciseTimes[id] || 0);
+  }, 0);
+  const duration = measuredSeconds > 0
+    ? Math.max(1, Math.round(measuredSeconds / 60))
+    : Math.round(selectedDay.estimated_duration * part);
 
   const { error } = await supabase.from("workout_logs").insert({
     user_id: user.id,
@@ -247,7 +258,14 @@ async function finishWorkout() {
     exercise_ids_completed: completed,
     sets_logged: selectedDay.prescriptions
       .filter(function (p) { return completed.indexOf(p.exercise_id) !== -1; })
-      .map(function (p) { return { name: p.name, sets: p.sets, reps: p.reps }; }),
+      .map(function (p) {
+        return {
+          name: p.name,
+          sets: p.sets,
+          reps: p.reps,
+          duration_seconds: exerciseTimes[p.exercise_id] || 0,
+        };
+      }),
     duration: duration,
     calories_burned: calories,
   });
@@ -262,6 +280,7 @@ async function finishWorkout() {
 
   toast("Workout saved! +" + (20 + completed.length * 5) + " XP");
   completed = [];
+  exerciseTimes = {};
   drawDay();
   await loadHistory();
 }
