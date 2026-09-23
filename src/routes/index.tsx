@@ -15,8 +15,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "AI-Fitness Trainer" },
       {
         property: "og:description",
-        content:
-          "Personalised workout plans and fitness tracking with Coach Jiya.",
+        content: "Personalised workout plans and fitness tracking with Coach Jiya.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -66,14 +66,28 @@ async function buildFacts(profile, fitness) {
   lines.push("Goal: " + (fitness.goal || "Stay Fit"));
   lines.push("Fitness level: " + (fitness.fitness_level || "Beginner"));
   lines.push("Age: " + (fitness.age || "unknown") + ", gender: " + (fitness.gender || "unknown"));
-  lines.push("Height: " + (fitness.height || "?") + " cm, weight: " + (fitness.weight || "?") + " kg");
+  lines.push(
+    "Height: " + (fitness.height || "?") + " cm, weight: " + (fitness.weight || "?") + " kg",
+  );
   lines.push("Target weight: " + (fitness.target_weight || "not set") + " kg");
   lines.push("Trains at: " + (fitness.workout_location || "Home"));
   lines.push("Home equipment: " + (fitness.equipment_home || []).join(", "));
   lines.push("Gym equipment: " + (fitness.equipment_gym || []).join(", "));
   lines.push("Injuries: " + (fitness.injuries || []).join(", "));
-  lines.push("Days per week: " + (fitness.days_per_week || 3) + ", session: " + (fitness.session_duration || 40) + " min");
-  lines.push("Daily calorie target: " + (fitness.daily_calories || "?") + " kcal, protein " + (fitness.protein_g || "?") + " g");
+  lines.push(
+    "Days per week: " +
+      (fitness.days_per_week || 3) +
+      ", session: " +
+      (fitness.session_duration || 40) +
+      " min",
+  );
+  lines.push(
+    "Daily calorie target: " +
+      (fitness.daily_calories || "?") +
+      " kcal, protein " +
+      (fitness.protein_g || "?") +
+      " g",
+  );
   if (profile) lines.push("XP: " + profile.xp + ", streak: " + profile.streak_days + " days");
 
   // Today's workout
@@ -94,8 +108,18 @@ async function buildFacts(profile, fitness) {
       .maybeSingle();
     if (day) {
       lines.push(
-        "Today (" + dayName + "): " + (day.is_rest ? "rest day" : day.name + " - " +
-          day.prescriptions.map(function (p) { return p.name + " " + p.sets + "x" + p.reps; }).join(", ")),
+        "Today (" +
+          dayName +
+          "): " +
+          (day.is_rest
+            ? "rest day"
+            : day.name +
+              " - " +
+              day.prescriptions
+                .map(function (p) {
+                  return p.name + " " + p.sets + "x" + p.reps;
+                })
+                .join(", ")),
       );
     }
   }
@@ -103,11 +127,20 @@ async function buildFacts(profile, fitness) {
   // Today's activity
   const today = todayString();
   const { data: steps } = await supabase
-    .from("step_logs").select("steps").eq("user_id", user.id).eq("date", today).maybeSingle();
+    .from("step_logs")
+    .select("steps")
+    .eq("user_id", user.id)
+    .eq("date", today)
+    .maybeSingle();
   const { data: waters } = await supabase
-    .from("water_logs").select("ml").eq("user_id", user.id).eq("date", today);
+    .from("water_logs")
+    .select("ml")
+    .eq("user_id", user.id)
+    .eq("date", today);
   let ml = 0;
-  (waters || []).forEach(function (row) { ml = ml + row.ml; });
+  (waters || []).forEach(function (row) {
+    ml = ml + row.ml;
+  });
   lines.push("Today: " + (steps ? steps.steps : 0) + " steps and " + ml + " ml water");
 
   return lines.join("\n");
@@ -149,7 +182,10 @@ async function loadHistory() {
   byId("chatWindow").innerHTML = "";
 
   if (history.length === 0) {
-    addBubble("jiya", "Hi! I am Jiya, your coach. Ask me about your plan, food, or how you are doing.");
+    addBubble(
+      "jiya",
+      "Hi! I am Jiya, your coach. Ask me about your plan, food, or how you are doing.",
+    );
     return;
   }
   history.forEach(function (row) {
@@ -158,7 +194,9 @@ async function loadHistory() {
 }
 
 async function saveMessage(sender, message) {
-  await supabase.from("chat_messages").insert({ user_id: user.id, sender: sender, message: message });
+  await supabase
+    .from("chat_messages")
+    .insert({ user_id: user.id, sender: sender, message: message });
   history.push({ sender: sender, message: message });
 }
 

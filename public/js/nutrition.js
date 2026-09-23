@@ -47,15 +47,20 @@ async function openScanner() {
     return;
   }
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    byId("cameraStatus").textContent = "This browser cannot open the camera. Use manual barcode entry.";
+    byId("cameraStatus").textContent =
+      "This browser cannot open the camera. Use manual barcode entry.";
     return;
   }
 
   try {
     const supported = await window.BarcodeDetector.getSupportedFormats();
     const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
-    const formats = wanted.filter(function (format) { return supported.indexOf(format) !== -1; });
-    barcodeDetector = new window.BarcodeDetector(formats.length > 0 ? { formats: formats } : undefined);
+    const formats = wanted.filter(function (format) {
+      return supported.indexOf(format) !== -1;
+    });
+    barcodeDetector = new window.BarcodeDetector(
+      formats.length > 0 ? { formats: formats } : undefined,
+    );
     cameraStream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: { ideal: "environment" } },
       audio: false,
@@ -103,7 +108,9 @@ function closeScanner(keepStatus) {
   scanFrame = null;
   detecting = false;
   if (cameraStream) {
-    cameraStream.getTracks().forEach(function (track) { track.stop(); });
+    cameraStream.getTracks().forEach(function (track) {
+      track.stop();
+    });
   }
   cameraStream = null;
   byId("scannerVideo").srcObject = null;
@@ -112,7 +119,9 @@ function closeScanner(keepStatus) {
   if (!keepStatus) byId("cameraStatus").textContent = "";
 }
 
-window.addEventListener("pagehide", function () { closeScanner(true); });
+window.addEventListener("pagehide", function () {
+  closeScanner(true);
+});
 
 function showTargets(fitness) {
   const targets = nutritionTargets(fitness);
@@ -213,26 +222,51 @@ function showProduct(scan) {
   card.classList.remove("hidden");
   card.innerHTML =
     '<div class="row" style="align-items:flex-start;gap:14px">' +
-      (scan.image_url
-        ? '<img src="' + scan.image_url + '" alt="" style="width:80px;border-radius:12px" />'
-        : "") +
-      "<div style='flex:1'><h2 style='margin:0'>" + scan.food_name + "</h2>" +
-      '<p class="small muted" style="margin:4px 0 0">' + (scan.brand || "No brand") +
-      " · barcode " + scan.barcode + "</p></div>" +
-      '<div class="grade ' + gradeClass(scan.grade) + '">' + (scan.grade || "?") + "</div>" +
+    (scan.image_url
+      ? '<img src="' + scan.image_url + '" alt="" style="width:80px;border-radius:12px" />'
+      : "") +
+    "<div style='flex:1'><h2 style='margin:0'>" +
+    scan.food_name +
+    "</h2>" +
+    '<p class="small muted" style="margin:4px 0 0">' +
+    (scan.brand || "No brand") +
+    " · barcode " +
+    scan.barcode +
+    "</p></div>" +
+    '<div class="grade ' +
+    gradeClass(scan.grade) +
+    '">' +
+    (scan.grade || "?") +
+    "</div>" +
     "</div>" +
     '<div class="info-grid">' +
-      '<div class="info-box"><p class="stat-label">Calories /100g</p><b>' +
-        (scan.calories ? round(scan.calories) : "-") + "</b></div>" +
-      '<div class="info-box"><p class="stat-label">Protein</p><b>' + round(macros.protein_g) + " g</b></div>" +
-      '<div class="info-box"><p class="stat-label">Carbs</p><b>' + round(macros.carbs_g) + " g</b></div>" +
-      '<div class="info-box"><p class="stat-label">Fat</p><b>' + round(macros.fat_g) + " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Calories /100g</p><b>' +
+    (scan.calories ? round(scan.calories) : "-") +
+    "</b></div>" +
+    '<div class="info-box"><p class="stat-label">Protein</p><b>' +
+    round(macros.protein_g) +
+    " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Carbs</p><b>' +
+    round(macros.carbs_g) +
+    " g</b></div>" +
+    '<div class="info-box"><p class="stat-label">Fat</p><b>' +
+    round(macros.fat_g) +
+    " g</b></div>" +
     "</div>" +
-    '<p class="small">' + (scan.summary || "") + "</p>" +
-    (scan.serving_size ? '<p class="small muted">Serving size: ' + scan.serving_size + "</p>" : "") +
+    '<p class="small">' +
+    (scan.summary || "") +
+    "</p>" +
+    (scan.serving_size
+      ? '<p class="small muted">Serving size: ' + scan.serving_size + "</p>"
+      : "") +
     ((scan.allergens || []).length > 0
       ? '<p class="small muted">Allergens: ' +
-        scan.allergens.map(function (item) { return item.replace("en:", ""); }).join(", ") + "</p>"
+        scan.allergens
+          .map(function (item) {
+            return item.replace("en:", "");
+          })
+          .join(", ") +
+        "</p>"
       : "") +
     (scan.ingredients
       ? "<div><h3>Ingredients</h3><p class='small muted'>" + scan.ingredients + "</p></div>"
@@ -259,8 +293,16 @@ async function loadScans() {
     row.className = "list-row";
     row.style.cursor = "pointer";
     row.innerHTML =
-      "<span>" + scan.food_name + '<br><span class="small muted">' + (scan.brand || "") + "</span></span>" +
-      '<span class="grade ' + gradeClass(scan.grade) + '">' + (scan.grade || "?") + "</span>";
+      "<span>" +
+      scan.food_name +
+      '<br><span class="small muted">' +
+      (scan.brand || "") +
+      "</span></span>" +
+      '<span class="grade ' +
+      gradeClass(scan.grade) +
+      '">' +
+      (scan.grade || "?") +
+      "</span>";
     row.addEventListener("click", function () {
       showProduct(scan);
       window.scrollTo({ top: 0, behavior: "smooth" });

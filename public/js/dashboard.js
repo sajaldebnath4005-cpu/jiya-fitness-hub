@@ -103,9 +103,12 @@ async function loadDashboard(user) {
   if (workoutDay && !workoutDay.is_rest) {
     byId("workoutName").textContent = workoutDay.name;
     byId("workoutMeta").textContent =
-      workoutDay.prescriptions.length + " exercises · " +
-      workoutDay.estimated_duration + " min · ~" +
-      workoutDay.estimated_calories + " kcal";
+      workoutDay.prescriptions.length +
+      " exercises · " +
+      workoutDay.estimated_duration +
+      " min · ~" +
+      workoutDay.estimated_calories +
+      " kcal";
   } else {
     byId("workoutName").textContent = "Rest / Active Recovery";
     byId("workoutMeta").textContent = "Take a walk, stretch and drink water.";
@@ -124,14 +127,19 @@ async function loadDashboard(user) {
   });
   byId("caloriesBurned").textContent = round(burned) + " kcal";
   byId("caloriesTargetText").textContent =
-    "Daily calorie target: " + (fitness.daily_calories || "-") + " kcal · protein " +
-    (fitness.protein_g || "-") + " g";
+    "Daily calorie target: " +
+    (fitness.daily_calories || "-") +
+    " kcal · protein " +
+    (fitness.protein_g || "-") +
+    " g";
 
   // ---------- weight ----------
-  const startWeight = weightLogs && weightLogs.length > 0 ? Number(weightLogs[0].weight) : Number(fitness.weight);
-  const currentWeight = weightLogs && weightLogs.length > 0
-    ? Number(weightLogs[weightLogs.length - 1].weight)
-    : Number(fitness.weight);
+  const startWeight =
+    weightLogs && weightLogs.length > 0 ? Number(weightLogs[0].weight) : Number(fitness.weight);
+  const currentWeight =
+    weightLogs && weightLogs.length > 0
+      ? Number(weightLogs[weightLogs.length - 1].weight)
+      : Number(fitness.weight);
   const targetWeight = fitness.target_weight ? Number(fitness.target_weight) : null;
 
   byId("weightNow").textContent = currentWeight ? currentWeight + " kg" : "- kg";
@@ -168,10 +176,19 @@ async function loadDashboard(user) {
       .map(function (item) {
         return (
           '<div class="exercise-item">' +
-          '<div style="flex:1"><b>' + item.name + "</b>" +
+          '<div style="flex:1"><b>' +
+          item.name +
+          "</b>" +
           '<p class="small muted" style="margin:2px 0 0">' +
-          item.sets + " sets × " + item.reps + " · " + item.rest_seconds + "s rest</p></div>" +
-          '<a class="btn btn-ghost btn-small" href="exercises.html?slug=' + item.slug + '">View</a>' +
+          item.sets +
+          " sets × " +
+          item.reps +
+          " · " +
+          item.rest_seconds +
+          "s rest</p></div>" +
+          '<a class="btn btn-ghost btn-small" href="exercises.html?slug=' +
+          item.slug +
+          '">View</a>' +
           "</div>"
         );
       })

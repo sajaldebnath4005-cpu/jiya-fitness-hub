@@ -105,22 +105,33 @@ function currentPage() {
 
 function linkHtml(link, active) {
   return (
-    '<a class="nav-link' + (active ? " active" : "") + '" href="' + link.page + '">' +
-    '<span class="nav-icon">' + link.icon + "</span>" +
-    "<span>" + link.text + "</span></a>"
+    '<a class="nav-link' +
+    (active ? " active" : "") +
+    '" href="' +
+    link.page +
+    '">' +
+    '<span class="nav-icon">' +
+    link.icon +
+    "</span>" +
+    "<span>" +
+    link.text +
+    "</span></a>"
   );
 }
 
 // Draws the top navigation and the mobile bottom navigation.
 export function renderNavigation() {
   const page = currentPage();
-  const logoUrl = "/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg";
+  const logoUrl =
+    "/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg";
 
   const header = document.createElement("header");
   header.className = "app-header";
   header.innerHTML =
     '<a class="brand" href="dashboard.html">' +
-    '<img class="brand-logo" src="' + logoUrl + '" alt="AI-Fitness Trainer" />' +
+    '<img class="brand-logo" src="' +
+    logoUrl +
+    '" alt="AI-Fitness Trainer" />' +
     '<span class="brand-text"><b>AI-Fitness</b> Trainer</span>' +
     "</a>" +
     '<nav class="top-nav">' +
@@ -128,7 +139,9 @@ export function renderNavigation() {
       return linkHtml(link, link.page === page);
     }).join("") +
     "</nav>" +
-    (page === "ai-coach.html" ? "" : '<button class="btn btn-primary jiya-launch" id="jiyaLaunch" type="button">💬 <span>TALK WITH JIYA</span></button>') +
+    (page === "ai-coach.html"
+      ? ""
+      : '<button class="btn btn-primary jiya-launch" id="jiyaLaunch" type="button">💬 <span>TALK WITH JIYA</span></button>') +
     '<button class="icon-button" id="menuButton" title="More pages">☰</button>';
 
   const drawer = document.createElement("div");

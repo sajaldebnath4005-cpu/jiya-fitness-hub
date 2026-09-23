@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,7 +14,9 @@
     <div class="container stack">
       <div>
         <h1>Nutrition</h1>
-        <p class="muted small">Your daily targets and product nutrition by camera or barcode number.</p>
+        <p class="muted small">
+          Your daily targets and product nutrition by camera or barcode number.
+        </p>
       </div>
 
       <div class="grid grid-4">
@@ -36,20 +38,27 @@
 
       <div class="card stack">
         <h2>Scan a product</h2>
-        <button class="btn btn-primary btn-block" id="scanButton" type="button">📷 Scan Product</button>
+        <button class="btn btn-primary btn-block" id="scanButton" type="button">
+          📷 Scan Product
+        </button>
         <div class="scanner-wrap hidden" id="scannerWrap">
           <video id="scannerVideo" playsinline muted></video>
           <div class="scan-target" aria-hidden="true">
-            <img src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg" alt="" />
+            <img
+              src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg"
+              alt=""
+            />
           </div>
           <p class="scan-caption">Scan barcode here</p>
-          <button class="btn btn-ghost btn-small scanner-close" id="closeScanner" type="button">Close camera</button>
+          <button class="btn btn-ghost btn-small scanner-close" id="closeScanner" type="button">
+            Close camera
+          </button>
         </div>
         <p class="small muted" id="cameraStatus"></p>
         <h3>Manual barcode</h3>
         <p class="small muted">
-          Type the barcode digits printed on the packet. Indian barcodes start with 890, so that part is
-          filled in for you.
+          Type the barcode digits printed on the packet. Indian barcodes start with 890, so that
+          part is filled in for you.
         </p>
         <div class="row">
           <input id="barcodeInput" type="text" inputmode="numeric" value="890" maxlength="14" />

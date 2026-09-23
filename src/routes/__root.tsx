@@ -78,10 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "AI-Fitness Trainer" },
-      { name: "description", content: "Personalised fitness training and progress tracking with Coach Jiya." },
+      {
+        name: "description",
+        content: "Personalised fitness training and progress tracking with Coach Jiya.",
+      },
       { name: "author", content: "AI-Fitness Trainer" },
       { property: "og:title", content: "AI-Fitness Trainer" },
-      { property: "og:description", content: "Personalised fitness training and progress tracking with Coach Jiya." },
+      {
+        property: "og:description",
+        content: "Personalised fitness training and progress tracking with Coach Jiya.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

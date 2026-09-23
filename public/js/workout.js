@@ -142,7 +142,10 @@ function drawDay() {
     check.checked = done;
     check.addEventListener("change", function () {
       if (check.checked) completed.push(item.exercise_id);
-      else completed = completed.filter(function (id) { return id !== item.exercise_id; });
+      else
+        completed = completed.filter(function (id) {
+          return id !== item.exercise_id;
+        });
       drawDay();
     });
 
@@ -153,9 +156,16 @@ function drawDay() {
     const main = document.createElement("div");
     main.className = "exercise-main";
     main.innerHTML =
-      '<p class="exercise-name" style="margin:0">' + item.name + "</p>" +
+      '<p class="exercise-name" style="margin:0">' +
+      item.name +
+      "</p>" +
       '<p class="small muted" style="margin:3px 0 0">' +
-      item.sets + " sets × " + item.reps + " · rest " + item.rest_seconds + "s" +
+      item.sets +
+      " sets × " +
+      item.reps +
+      " · rest " +
+      item.rest_seconds +
+      "s" +
       (exercise ? " · " + exercise.muscle_group : "") +
       "</p>";
     if (exercise) {
@@ -200,7 +210,9 @@ async function replaceExercise(index) {
   const target = findExercise(item.exercise_id);
   if (!target) return;
 
-  const usedIds = selectedDay.prescriptions.map(function (p) { return p.exercise_id; });
+  const usedIds = selectedDay.prescriptions.map(function (p) {
+    return p.exercise_id;
+  });
   const substitute = findSubstitute(target, allExercises, fitness, usedIds);
   if (!substitute) {
     toast("No other exercise fits your equipment and goal.", "error");
@@ -215,13 +227,17 @@ async function replaceExercise(index) {
     reps: item.reps,
     rest_seconds: item.rest_seconds,
   };
-  completed = completed.filter(function (id) { return id !== item.exercise_id; });
+  completed = completed.filter(function (id) {
+    return id !== item.exercise_id;
+  });
 
   const { error } = await supabase
     .from("workout_days")
     .update({
       prescriptions: selectedDay.prescriptions,
-      exercise_ids: selectedDay.prescriptions.map(function (p) { return p.exercise_id; }),
+      exercise_ids: selectedDay.prescriptions.map(function (p) {
+        return p.exercise_id;
+      }),
     })
     .eq("id", selectedDay.id);
 
@@ -246,9 +262,10 @@ async function finishWorkout() {
   const measuredSeconds = completed.reduce(function (sum, id) {
     return sum + (exerciseTimes[id] || 0);
   }, 0);
-  const duration = measuredSeconds > 0
-    ? Math.max(1, Math.round(measuredSeconds / 60))
-    : Math.round(selectedDay.estimated_duration * part);
+  const duration =
+    measuredSeconds > 0
+      ? Math.max(1, Math.round(measuredSeconds / 60))
+      : Math.round(selectedDay.estimated_duration * part);
 
   const { error } = await supabase.from("workout_logs").insert({
     user_id: user.id,
@@ -257,7 +274,9 @@ async function finishWorkout() {
     workout_name: selectedDay.name,
     exercise_ids_completed: completed,
     sets_logged: selectedDay.prescriptions
-      .filter(function (p) { return completed.indexOf(p.exercise_id) !== -1; })
+      .filter(function (p) {
+        return completed.indexOf(p.exercise_id) !== -1;
+      })
       .map(function (p) {
         return {
           name: p.name,
@@ -288,7 +307,10 @@ async function finishWorkout() {
 async function giveBadge(type, label) {
   await supabase
     .from("achievements")
-    .upsert({ user_id: user.id, badge_type: type, label: label }, { onConflict: "user_id,badge_type" });
+    .upsert(
+      { user_id: user.id, badge_type: type, label: label },
+      { onConflict: "user_id,badge_type" },
+    );
 }
 
 async function loadHistory() {
@@ -307,9 +329,16 @@ async function loadHistory() {
   box.innerHTML = data
     .map(function (log) {
       return (
-        '<div class="list-row"><span>' + log.date + " · " + log.workout_name + "</span>" +
-        '<span class="lime">' + log.exercise_ids_completed.length + " ex · " +
-        log.calories_burned + " kcal</span></div>"
+        '<div class="list-row"><span>' +
+        log.date +
+        " · " +
+        log.workout_name +
+        "</span>" +
+        '<span class="lime">' +
+        log.exercise_ids_completed.length +
+        " ex · " +
+        log.calories_burned +
+        " kcal</span></div>"
       );
     })
     .join("");

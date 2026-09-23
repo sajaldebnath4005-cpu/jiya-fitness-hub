@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,7 +11,11 @@
   <body class="auth-page">
     <div class="auth-card">
       <div class="auth-logo">
-        <img class="auth-brand-logo" src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg" alt="AI-Fitness Trainer" />
+        <img
+          class="auth-brand-logo"
+          src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg"
+          alt="AI-Fitness Trainer"
+        />
       </div>
       <h2 class="auth-title">Create your account</h2>
       <p class="auth-sub">It takes less than a minute</p>
@@ -32,16 +36,22 @@
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" required minlength="6" placeholder="At least 6 characters" />
+          <input
+            type="password"
+            id="password"
+            required
+            minlength="6"
+            placeholder="At least 6 characters"
+          />
         </div>
-        <button class="btn btn-primary btn-block" id="signupButton" type="submit">Create account</button>
+        <button class="btn btn-primary btn-block" id="signupButton" type="submit">
+          Create account
+        </button>
       </form>
 
       <div id="message" class="auth-message hidden"></div>
 
-      <p class="auth-footer">
-        Already have an account? <a href="login.html">Log in</a>
-      </p>
+      <p class="auth-footer">Already have an account? <a href="login.html">Log in</a></p>
     </div>
 
     <script type="module" src="js/auth.js"></script>

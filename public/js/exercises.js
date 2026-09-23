@@ -15,8 +15,12 @@ export function openExerciseSheet(exercise, prescription, onComplete) {
 
   const instructions = (exercise.instructions || "")
     .split("\n")
-    .filter(function (line) { return line.trim() !== ""; })
-    .map(function (line) { return "<li>" + line.replace(/^\d+[.)]\s*/, "") + "</li>"; })
+    .filter(function (line) {
+      return line.trim() !== "";
+    })
+    .map(function (line) {
+      return "<li>" + line.replace(/^\d+[.)]\s*/, "") + "</li>";
+    })
     .join("");
 
   const sets = prescription ? prescription.sets : 3;
@@ -25,45 +29,66 @@ export function openExerciseSheet(exercise, prescription, onComplete) {
 
   overlay.innerHTML =
     '<div class="sheet stack">' +
-      '<div class="row-between">' +
-        "<h2 style='margin:0'>" + exercise.name + "</h2>" +
-        '<button class="sheet-close" id="sheetClose">✕</button>' +
-      "</div>" +
-      '<div class="row wrap">' +
-        '<span class="pill pill-primary">' + exercise.muscle_group + "</span>" +
-        '<span class="pill">' + exercise.difficulty + "</span>" +
-        '<span class="pill">' + ((exercise.equipment || []).join(", ") || "No equipment") + "</span>" +
-      "</div>" +
-      (exercise.media_url
-        ? '<img src="' + exercise.media_url + '" alt="' + exercise.name +
-          '" style="width:100%;border-radius:16px" />'
-        : '<div class="exercise-thumb" style="width:100%;height:120px;font-size:44px">🏋️</div>') +
-      '<div class="info-grid">' +
-        '<div class="info-box"><p class="stat-label">Sets</p><b>' + sets + "</b></div>" +
-        '<div class="info-box"><p class="stat-label">Reps</p><b>' + reps + "</b></div>" +
-        '<div class="info-box"><p class="stat-label">Rest</p><b>' + rest + "s</b></div>" +
-        '<div class="info-box"><p class="stat-label">MET</p><b>' + exercise.met + "</b></div>" +
-      "</div>" +
-      '<div class="exercise-timer stack">' +
-        '<p class="stat-label">Exercise timer</p>' +
-        '<div class="timer-display" id="exerciseTimer">00:00</div>' +
-        '<div class="timer-actions">' +
-          '<button class="btn btn-primary btn-small" id="timerStart" type="button">Start</button>' +
-          '<button class="btn btn-outline btn-small" id="timerPause" type="button" disabled>Pause</button>' +
-          '<button class="btn btn-outline btn-small hidden" id="timerResume" type="button">Resume</button>' +
-          '<button class="btn btn-ghost btn-small" id="timerReset" type="button">Reset</button>' +
-        "</div>" +
-      "</div>" +
-      "<div><h3>How to do it</h3><ol class='small muted'>" +
-        (instructions || "<li>Move slowly and keep control.</li>") +
-      "</ol></div>" +
-      (exercise.common_mistakes
-        ? "<div><h3>Common mistakes</h3><p class='small muted'>" + exercise.common_mistakes + "</p></div>"
-        : "") +
-      ((exercise.secondary_muscles || []).length > 0
-        ? "<p class='small muted'>Also works: " + exercise.secondary_muscles.join(", ") + "</p>"
-        : "") +
-      '<button class="btn btn-primary btn-block" id="sheetDone">Complete Exercise</button>' +
+    '<div class="row-between">' +
+    "<h2 style='margin:0'>" +
+    exercise.name +
+    "</h2>" +
+    '<button class="sheet-close" id="sheetClose">✕</button>' +
+    "</div>" +
+    '<div class="row wrap">' +
+    '<span class="pill pill-primary">' +
+    exercise.muscle_group +
+    "</span>" +
+    '<span class="pill">' +
+    exercise.difficulty +
+    "</span>" +
+    '<span class="pill">' +
+    ((exercise.equipment || []).join(", ") || "No equipment") +
+    "</span>" +
+    "</div>" +
+    (exercise.media_url
+      ? '<img src="' +
+        exercise.media_url +
+        '" alt="' +
+        exercise.name +
+        '" style="width:100%;border-radius:16px" />'
+      : '<div class="exercise-thumb" style="width:100%;height:120px;font-size:44px">🏋️</div>') +
+    '<div class="info-grid">' +
+    '<div class="info-box"><p class="stat-label">Sets</p><b>' +
+    sets +
+    "</b></div>" +
+    '<div class="info-box"><p class="stat-label">Reps</p><b>' +
+    reps +
+    "</b></div>" +
+    '<div class="info-box"><p class="stat-label">Rest</p><b>' +
+    rest +
+    "s</b></div>" +
+    '<div class="info-box"><p class="stat-label">MET</p><b>' +
+    exercise.met +
+    "</b></div>" +
+    "</div>" +
+    '<div class="exercise-timer stack">' +
+    '<p class="stat-label">Exercise timer</p>' +
+    '<div class="timer-display" id="exerciseTimer">00:00</div>' +
+    '<div class="timer-actions">' +
+    '<button class="btn btn-primary btn-small" id="timerStart" type="button">Start</button>' +
+    '<button class="btn btn-outline btn-small" id="timerPause" type="button" disabled>Pause</button>' +
+    '<button class="btn btn-outline btn-small hidden" id="timerResume" type="button">Resume</button>' +
+    '<button class="btn btn-ghost btn-small" id="timerReset" type="button">Reset</button>' +
+    "</div>" +
+    "</div>" +
+    "<div><h3>How to do it</h3><ol class='small muted'>" +
+    (instructions || "<li>Move slowly and keep control.</li>") +
+    "</ol></div>" +
+    (exercise.common_mistakes
+      ? "<div><h3>Common mistakes</h3><p class='small muted'>" +
+        exercise.common_mistakes +
+        "</p></div>"
+      : "") +
+    ((exercise.secondary_muscles || []).length > 0
+      ? "<p class='small muted'>Also works: " + exercise.secondary_muscles.join(", ") + "</p>"
+      : "") +
+    '<button class="btn btn-primary btn-block" id="sheetDone">Complete Exercise</button>' +
     "</div>";
 
   let elapsedSeconds = 0;
@@ -180,9 +205,14 @@ function draw() {
     card.className = "exercise-card";
     card.innerHTML =
       '<div class="row"><div class="exercise-thumb">🏋️</div><div>' +
-      "<b>" + exercise.name + "</b>" +
-      '<p class="small muted" style="margin:3px 0 0">' + exercise.muscle_group +
-      " · " + exercise.difficulty + "</p></div></div>";
+      "<b>" +
+      exercise.name +
+      "</b>" +
+      '<p class="small muted" style="margin:3px 0 0">' +
+      exercise.muscle_group +
+      " · " +
+      exercise.difficulty +
+      "</p></div></div>";
     card.addEventListener("click", function () {
       openExerciseSheet(exercise, null);
     });
