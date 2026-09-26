@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scan a product - AI-Fitness Trainer</title>
+    <meta name="description" content="Scan a food barcode or enter it manually to check product nutrition." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workout.css" />
+    <link rel="stylesheet" href="css/progress.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="container stack">
+      <div>
+        <h1>Scan a product</h1>
+        <p class="muted small">Check the nutrition of a packaged food.</p>
+      </div>
+
+      <div class="card stack">
+        <button class="btn btn-primary btn-block" id="scanButton" type="button">
+          📷 Scan Product
+        </button>
+        <div class="scanner-wrap hidden" id="scannerWrap">
+          <video id="scannerVideo" playsinline muted></video>
+          <div class="scan-target" aria-hidden="true">
+            <img
+              src="/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg"
+              alt=""
+            />
+          </div>
+          <p class="scan-caption">Scan barcode here</p>
+          <button class="btn btn-ghost btn-small scanner-close" id="closeScanner" type="button">
+            Close camera
+          </button>
+        </div>
+        <p class="small muted" id="cameraStatus"></p>
+        <h3>Manual barcode</h3>
+        <p class="small muted">
+          Type the barcode digits printed on the packet. Indian barcodes start with 890, so that
+          part is filled in for you.
+        </p>
+        <div class="row">
+          <input id="barcodeInput" type="text" inputmode="numeric" value="890" maxlength="14" aria-label="Barcode number" />
+          <button class="btn btn-primary" id="searchButton" type="button">Search</button>
+        </div>
+        <p class="small muted" id="searchStatus"></p>
+      </div>
+
+      <div class="card stack hidden" id="resultCard"></div>
+
+      <div class="card stack">
+        <h2>Recent checks</h2>
+        <div id="scanList"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/scan.js"></script>
+  </body>
+</html>

@@ -84,8 +84,8 @@ export async function logout() {
 const MAIN_LINKS = [
   { text: "Dashboard", page: "dashboard.html", icon: "🏠" },
   { text: "Workout", page: "workout.html", icon: "🏋️" },
+  { text: "Scan", page: "scan.html", icon: "barcode" },
   { text: "Progress", page: "progress.html", icon: "📈" },
-  { text: "AI Coach", page: "ai-coach.html", icon: "🤖" },
   { text: "Social", page: "friends.html", icon: "👥" },
   { text: "Profile", page: "profile.html", icon: "👤" },
 ];
@@ -111,7 +111,7 @@ function linkHtml(link, active) {
     link.page +
     '">' +
     '<span class="nav-icon">' +
-    link.icon +
+    (link.icon === "barcode" ? '<img class="barcode-icon" src="barcode.svg" alt="" />' : link.icon) +
     "</span>" +
     "<span>" +
     link.text +
@@ -156,6 +156,7 @@ export function renderNavigation() {
 
   const bottom = document.createElement("nav");
   bottom.className = "bottom-nav";
+  bottom.setAttribute("aria-label", "Main navigation");
   bottom.innerHTML = MAIN_LINKS.slice(0, 5)
     .map(function (link) {
       return linkHtml(link, link.page === page);

@@ -17,13 +17,25 @@
   }
   .bottom-nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
   .bottom-nav .nav-link {
+    flex: 1 1 20%;
+    min-width: 0;
     flex-direction: column;
     gap: 3px;
     font-size: 11px;
-    padding: 6px 8px;
+    padding: 6px 2px;
+    justify-content: center;
+    text-align: center;
+  }
+  .bottom-nav .nav-link[href="scan.html"] .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
   }
   .icon-button {
     margin-left: auto;
@@ -65,11 +77,3 @@
   }
 }
 
-@media (max-width: 420px) {
-  .bottom-nav .nav-link span:not(.nav-icon) {
-    display: none;
-  }
-  .bottom-nav .nav-icon {
-    font-size: 20px;
-  }
-}

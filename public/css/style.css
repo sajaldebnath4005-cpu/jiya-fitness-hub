@@ -171,6 +171,15 @@ a:hover {
 .nav-icon {
   font-size: 15px;
 }
+.barcode-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  filter: invert(1);
+}
+.nav-link.active .barcode-icon {
+  filter: none;
+}
 
 .icon-button {
   background-color: var(--surface-alt);
