@@ -35,22 +35,33 @@ async function start() {
   });
 }
 
+// Use the browser's built-in detector when present, otherwise load a
+// small open-source detector so laptops and iPhones can scan too.
+async function getDetectorClass() {
+  if ("BarcodeDetector" in window) return window.BarcodeDetector;
+  const module = await import("https://cdn.jsdelivr.net/npm/barcode-detector@2/dist/es/pure.min.js");
+  return module.BarcodeDetector;
+}
+
 async function openScanner() {
-  if (!("BarcodeDetector" in window)) {
-    byId("cameraStatus").textContent =
-      "Camera barcode detection is not supported by this browser. Use the editable manual barcode field below.";
-    return;
-  }
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    byId("cameraStatus").textContent = "This browser cannot open the camera. Use manual barcode entry.";
+    byId("cameraStatus").textContent =
+      "This browser cannot open the camera (the page must use https). Use manual barcode entry.";
     return;
   }
 
+  byId("cameraStatus").textContent = "Starting camera...";
   try {
-    const supported = await window.BarcodeDetector.getSupportedFormats();
+    const Detector = await getDetectorClass();
     const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
-    const formats = wanted.filter((format) => supported.includes(format));
-    barcodeDetector = new window.BarcodeDetector(formats.length ? { formats } : undefined);
+    let formats = wanted;
+    try {
+      const supported = await Detector.getSupportedFormats();
+      formats = wanted.filter((format) => supported.includes(format));
+    } catch (e) {
+      /* keep default formats */
+    }
+    barcodeDetector = new Detector(formats.length ? { formats } : { formats: wanted });
     cameraStream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: { ideal: "environment" } },
       audio: false,
