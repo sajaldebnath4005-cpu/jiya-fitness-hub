@@ -84,7 +84,7 @@ export async function logout() {
 const MAIN_LINKS = [
   { text: "Dashboard", page: "dashboard.html", icon: "🏠" },
   { text: "Workout", page: "workout.html", icon: "🏋️" },
-  { text: "Scan", page: "scan.html", icon: "▦" },
+  { text: "Scan", page: "scan.html", icon: "barcode" },
   { text: "Progress", page: "progress.html", icon: "📈" },
   { text: "Social", page: "friends.html", icon: "👥" },
   { text: "Profile", page: "profile.html", icon: "👤" },
@@ -111,7 +111,7 @@ function linkHtml(link, active) {
     link.page +
     '">' +
     '<span class="nav-icon">' +
-    link.icon +
+    (link.icon === "barcode" ? '<img class="barcode-icon" src="barcode.svg" alt="" />' : link.icon) +
     "</span>" +
     "<span>" +
     link.text +

@@ -32,8 +32,10 @@
     text-align: center;
   }
   .bottom-nav .nav-link[href="scan.html"] .nav-icon {
-    font-size: 23px;
-    line-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
   }
   .icon-button {
     margin-left: auto;
