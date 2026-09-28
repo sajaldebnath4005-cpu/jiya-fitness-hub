@@ -1,5 +1,6 @@
 // A short, one-time-per-tab welcome using the official logo.
-const logoUrl = "/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg";
+const logoUrl =
+  "/__l5e/assets-v1/184cc5b0-bf72-4a4b-8767-e92928db6b58/ai-fitness-trainer-logo.jpeg";
 
 export function playIntro(force = false) {
   if (!force && sessionStorage.getItem("ai-fitness-intro-seen")) return Promise.resolve();

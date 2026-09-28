@@ -133,11 +133,25 @@
   animation: welcome-logo 1.2s ease-in-out both;
 }
 @keyframes welcome-logo {
-  0% { opacity: 0; transform: scale(0.82); }
-  35% { opacity: 1; transform: scale(1); }
-  75% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.04); }
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .welcome-intro img { animation: none; }
+  .welcome-intro img {
+    animation: none;
+  }
 }
