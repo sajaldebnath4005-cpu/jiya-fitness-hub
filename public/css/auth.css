@@ -87,7 +87,12 @@
 .hero-title {
   font-size: 46px;
   line-height: 1.1;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+}
+.hero-tagline {
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 18px;
 }
 .hero-text {
   max-width: 620px;
@@ -105,4 +110,48 @@
 .feature-icon {
   font-size: 26px;
   margin-bottom: 8px;
+}
+.feature-barcode {
+  width: 27px;
+  height: 27px;
+  filter: invert(1);
+}
+
+.welcome-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background-color: var(--background);
+}
+.welcome-intro img {
+  width: min(38vw, 170px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 16px;
+  animation: welcome-logo 1.2s ease-in-out both;
+}
+@keyframes welcome-logo {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome-intro img {
+    animation: none;
+  }
 }

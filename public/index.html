@@ -28,7 +28,8 @@
           alt="AI-Fitness Trainer"
         />
       </div>
-      <h1 class="hero-title">Train smarter with <span class="lime">Jiya</span></h1>
+      <h1 class="hero-title">AI-Fitness Trainer</h1>
+      <h2 class="hero-tagline">Train smarter with <span class="lime">Jiya</span></h2>
       <p class="hero-text">
         A personalised workout plan for your goal, plus simple tracking for steps, water, nutrition,
         weight and calories—and Coach Jiya for fitness guidance.
@@ -55,6 +56,14 @@
           <p class="muted small">
             Workouts, steps, water, nutrition, weight and calories—all saved to your account so your
             progress is always there.
+          </p>
+        </div>
+        <div class="card card-hover">
+          <div class="feature-icon"><img class="feature-barcode" src="barcode.svg" alt="" /></div>
+          <h3>Scan packaged food</h3>
+          <p class="muted small">
+            Scan a product barcode with your phone or laptop camera, or enter it manually to check
+            calories, macros and Nutri-Score.
           </p>
         </div>
         <div class="card card-hover">
@@ -89,17 +98,18 @@
         </div>
       </div>
 
-      <p class="center muted small" style="margin-top: 30px">
-        AI-Fitness Trainer — BCA final year project
-      </p>
+      <p class="center muted small" style="margin-top: 30px">AI-Fitness Trainer</p>
     </div>
 
     <script type="module">
       // If the user is already logged in, go straight to the dashboard.
       import { getCurrentUser } from "./js/supabase.js";
-      getCurrentUser().then(function (user) {
-        if (user) window.location.replace("dashboard.html");
-      });
+      import { playIntro } from "./js/intro.js";
+      playIntro()
+        .then(() => getCurrentUser())
+        .then(function (user) {
+          if (user) window.location.replace("dashboard.html");
+        });
     </script>
   </body>
 </html>
