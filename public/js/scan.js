@@ -66,6 +66,7 @@ async function openScanner() {
 
   scanStarting = true;
   const session = ++scanSession;
+  let captured = false;
   byId("scanButton").disabled = true;
   byId("scannerWrap").classList.remove("hidden");
   byId("cameraStatus").textContent = "Starting camera and barcode reader…";
@@ -88,9 +89,10 @@ async function openScanner() {
       },
       byId("scannerVideo"),
       (result) => {
-        if (session !== scanSession || !result) return;
+        if (session !== scanSession || !result || captured) return;
         const barcode = result.getText().replace(/\D/g, "");
         if (!/^\d{8,14}$/.test(barcode)) return;
+        captured = true;
         byId("barcodeInput").value = barcode;
         closeScanner(true);
         byId("cameraStatus").textContent = "Barcode captured: " + barcode + ". Looking up product…";
