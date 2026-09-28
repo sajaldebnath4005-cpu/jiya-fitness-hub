@@ -10,3 +10,7 @@
 <!-- LOVABLE:END -->
 
 The static HTML app keeps barcode capture and product lookup on `public/scan.html` with `public/js/scan.js`, while `public/nutrition.html` only shows daily targets; this keeps the centered Scan navigation destination distinct from Nutrition.
+
+The Scan page uses a locally packaged ZXing browser reader for continuous camera decoding rather than a remote detector import; this avoids browser API and third-party script availability differences across phones and laptops.
+
+The landing and login pages share a small logo welcome animation in `public/js/intro.js`; this keeps the opening treatment consistent while leaving authenticated pages unchanged.

@@ -5,10 +5,10 @@ import { byId, requireLogin, renderNavigation, toast, round } from "./main.js";
 renderNavigation();
 
 let user = null;
-let cameraStream = null;
-let scanFrame = null;
-let barcodeDetector = null;
-let detecting = false;
+let scanControls = null;
+let scanStarting = false;
+let scanSession = 0;
+let readerPromise = null;
 
 start();
 
@@ -35,82 +35,85 @@ async function start() {
   });
 }
 
-// Use the browser's built-in detector when present, otherwise load a
-// small open-source detector so laptops and iPhones can scan too.
-async function getDetectorClass() {
-  if ("BarcodeDetector" in window) return window.BarcodeDetector;
-  const module = await import("https://cdn.jsdelivr.net/npm/barcode-detector@2/dist/es/pure.min.js");
-  return module.BarcodeDetector;
+// Load the locally packaged ZXing reader on demand. It reads printed EAN/UPC
+// codes on both webcam and phone cameras, including browsers without BarcodeDetector.
+function loadReader() {
+  if (!readerPromise) {
+    readerPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "js/vendor/zxing-browser.min.js";
+      script.onload = () => window.ZXingBrowser ? resolve(window.ZXingBrowser) : reject(new Error("Barcode reader unavailable"));
+      script.onerror = () => reject(new Error("Barcode reader could not load"));
+      document.head.appendChild(script);
+    }).catch((error) => {
+      readerPromise = null;
+      throw error;
+    });
+  }
+  return readerPromise;
 }
 
 async function openScanner() {
+  if (scanStarting || scanControls) return;
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     byId("cameraStatus").textContent =
-      "This browser cannot open the camera (the page must use https). Use manual barcode entry.";
+      "Camera access needs a secure (https) page and a supported browser. Enter the barcode manually instead.";
     return;
   }
 
-  byId("cameraStatus").textContent = "Starting camera...";
+  scanStarting = true;
+  const session = ++scanSession;
+  byId("scanButton").disabled = true;
+  byId("scannerWrap").classList.remove("hidden");
+  byId("cameraStatus").textContent = "Starting camera and barcode reader…";
   try {
-    const Detector = await getDetectorClass();
-    const wanted = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
-    let formats = wanted;
-    try {
-      const supported = await Detector.getSupportedFormats();
-      formats = wanted.filter((format) => supported.includes(format));
-    } catch (e) {
-      /* keep default formats */
-    }
-    barcodeDetector = new Detector(formats.length ? { formats } : { formats: wanted });
-    cameraStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: "environment" } },
-      audio: false,
+    const ZXing = await loadReader();
+    if (session !== scanSession) return;
+    const reader = new ZXing.BrowserMultiFormatOneDReader(undefined, {
+      delayBetweenScanAttempts: 180,
+      delayBetweenScanSuccess: 500,
     });
-    byId("scannerVideo").srcObject = cameraStream;
-    await byId("scannerVideo").play();
-    byId("scannerWrap").classList.remove("hidden");
-    byId("scanButton").disabled = true;
-    byId("cameraStatus").textContent = "Point the camera at the product barcode.";
-    scanFrame = window.requestAnimationFrame(detectBarcode);
+    // ZXing owns the camera stream and its continuous decode loop.
+    const controls = await reader.decodeFromConstraints(
+      { audio: false, video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } } },
+      byId("scannerVideo"),
+      (result) => {
+        if (session !== scanSession || !result) return;
+        const barcode = result.getText().replace(/\D/g, "");
+        if (!/^\d{8,14}$/.test(barcode)) return;
+        byId("barcodeInput").value = barcode;
+        closeScanner(true);
+        byId("cameraStatus").textContent = "Barcode captured: " + barcode + ". Looking up product…";
+        search();
+      },
+    );
+    if (session !== scanSession) {
+      controls.stop();
+      return;
+    }
+    scanControls = controls;
+    scanStarting = false;
+    byId("cameraStatus").textContent = "Scanning… Hold the barcode steady and fill the camera view with it.";
   } catch (error) {
     console.error(error);
     byId("cameraStatus").textContent =
-      error && error.name === "NotAllowedError"
-        ? "Camera permission was not allowed. You can still enter the barcode manually."
-        : "The camera could not start. You can still enter the barcode manually.";
+      error && (error.name === "NotAllowedError" || error.name === "PermissionDeniedError")
+        ? "Camera permission was denied. Allow camera access in your browser settings, or enter the barcode manually."
+        : error && error.name === "NotFoundError"
+          ? "No camera was found. Enter the barcode manually."
+          : "The camera or barcode reader could not start. Enter the barcode manually.";
     closeScanner(true);
   }
 }
 
-async function detectBarcode() {
-  if (!cameraStream) return;
-  if (!detecting && byId("scannerVideo").readyState >= 2) {
-    detecting = true;
-    try {
-      const results = await barcodeDetector.detect(byId("scannerVideo"));
-      if (results.length > 0 && results[0].rawValue) {
-        byId("barcodeInput").value = results[0].rawValue;
-        byId("cameraStatus").textContent = "Barcode captured: " + results[0].rawValue;
-        closeScanner(true);
-        await search();
-        detecting = false;
-        return;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    detecting = false;
-  }
-  scanFrame = window.requestAnimationFrame(detectBarcode);
-}
-
 function closeScanner(keepStatus) {
-  if (scanFrame) window.cancelAnimationFrame(scanFrame);
-  scanFrame = null;
-  detecting = false;
-  if (cameraStream) cameraStream.getTracks().forEach((track) => track.stop());
-  cameraStream = null;
-  byId("scannerVideo").srcObject = null;
+  scanSession++;
+  if (scanControls) scanControls.stop();
+  scanControls = null;
+  scanStarting = false;
+  const video = byId("scannerVideo");
+  if (video.srcObject) video.srcObject.getTracks().forEach((track) => track.stop());
+  video.srcObject = null;
   byId("scannerWrap").classList.add("hidden");
   byId("scanButton").disabled = false;
   if (!keepStatus) byId("cameraStatus").textContent = "";

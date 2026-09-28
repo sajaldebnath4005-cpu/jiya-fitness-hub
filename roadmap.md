@@ -9,3 +9,5 @@
 
 - [x] Move barcode scanner to standalone Scan page in the center of mobile navigation
 - [x] Remove AI Coach from navigation while keeping the Jiya button
+- [x] Replace unreliable barcode detection with a locally packaged camera reader and clear scan status
+- [x] Add logo welcome animation and landing-page branding, scanner feature, and revised footer

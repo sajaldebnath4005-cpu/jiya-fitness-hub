@@ -6,6 +6,13 @@
 
 import { supabase } from "./supabase.js";
 import { byId } from "./main.js";
+import { playIntro } from "./intro.js";
+
+if (loginFormPage()) playIntro();
+
+function loginFormPage() {
+  return Boolean(byId("loginForm"));
+}
 
 function showMessage(text, isError) {
   const box = byId("message");
@@ -131,6 +138,7 @@ if (loginForm) {
       email: email,
     });
 
+    await playIntro(true);
     await goToNextPage(data.user.id);
   });
 

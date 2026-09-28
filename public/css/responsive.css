@@ -69,6 +69,9 @@
   .hero-title {
     font-size: 32px !important;
   }
+  .hero-tagline {
+    font-size: 22px;
+  }
 }
 
 @media (max-width: 480px) {
