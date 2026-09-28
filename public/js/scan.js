@@ -95,7 +95,7 @@ async function openScanner() {
         captured = true;
         byId("barcodeInput").value = barcode;
         closeScanner(true);
-        byId("cameraStatus").textContent = "Barcode captured: " + barcode + ". Looking up product…";
+        byId("cameraStatus").textContent = "Barcode captured: " + barcode + ".";
         search();
       },
     );
