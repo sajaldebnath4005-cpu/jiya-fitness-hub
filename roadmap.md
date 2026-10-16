@@ -11,3 +11,5 @@
 - [x] Remove AI Coach from navigation while keeping the Jiya button
 - [x] Replace unreliable barcode detection with a locally packaged camera reader and clear scan status
 - [x] Add logo welcome animation and landing-page branding, scanner feature, and revised footer
+- [ ] Audit and remove only confirmed obsolete project files before publishing
+- [ ] Verify the remaining project still builds and all live pages/assets are present
