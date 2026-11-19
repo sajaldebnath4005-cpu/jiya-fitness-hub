@@ -13,3 +13,4 @@
 - [x] Add logo welcome animation and landing-page branding, scanner feature, and revised footer
 - [x] Remove confirmed unused React starter UI files and generated TypeScript cache
 - [x] Verify remaining project builds and landing page, branding, and scanner feature remain present
+- [ ] Replace workout checkboxes with guided, recoverable timed sessions and validate completion

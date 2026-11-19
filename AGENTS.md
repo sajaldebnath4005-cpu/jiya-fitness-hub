@@ -16,3 +16,5 @@ The Scan page uses a locally packaged ZXing browser reader for continuous camera
 The landing and login pages share a small logo welcome animation in `public/js/intro.js`; this keeps the opening treatment consistent while leaving authenticated pages unchanged.
 
 Unused shadcn/Radix starter components and their generator config are excluded because the shipped fitness interface is implemented in static HTML, CSS, and JavaScript; retain the TanStack shell and secure Coach Jiya endpoint that still support the deployed site.
+
+Guided workout sessions are timestamp-driven and recover from per-user browser storage; completed workouts continue to use the existing workout_logs table to avoid parallel session tables.

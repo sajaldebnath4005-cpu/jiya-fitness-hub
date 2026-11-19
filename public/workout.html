@@ -19,11 +19,12 @@
             <h1>My workout plan</h1>
             <p class="muted small" id="planSplit"></p>
           </div>
-          <button class="btn btn-outline btn-small" id="regenerateButton">Regenerate plan</button>
+          <button class="btn btn-outline btn-small" id="regenerateButton" type="button">
+            Regenerate plan
+          </button>
         </div>
 
         <p class="small muted" id="planNotes"></p>
-
         <div class="day-strip" id="dayStrip"></div>
 
         <div class="card stack">
@@ -42,8 +43,8 @@
           </div>
           <div class="progress"><div class="progress-bar" id="dayBar" style="width: 0%"></div></div>
           <div id="exerciseList"></div>
-          <button class="btn btn-primary btn-block" id="finishButton">
-            Finish workout &amp; save
+          <button class="btn btn-primary btn-block" id="startWorkoutButton" type="button">
+            Start workout
           </button>
         </div>
 
@@ -52,6 +53,7 @@
       </div>
     </div>
 
+    <div class="session-overlay hidden" id="sessionOverlay"></div>
     <script type="module" src="js/workout.js"></script>
   </body>
 </html>
