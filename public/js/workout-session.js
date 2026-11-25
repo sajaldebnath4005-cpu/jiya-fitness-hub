@@ -1,15 +1,27 @@
-// Guided workout session state and timestamp-based timer transitions.
+// Per-exercise workout timing and timestamp-based session transitions.
 
 export const READY_SECONDS = 10;
 
-export function workSecondsFor(reps) {
+export function workSecondsFor(reps, exercise) {
   const text = String(reps || "");
   const timed = text.match(/(\d+)\s*(?:sec|seconds?)\b/i);
   if (timed) return Math.max(1, Number(timed[1]));
 
   const repetitions = text.match(/(\d+)\s*(?:reps?|repetitions?)\b/i);
   if (!repetitions) return 40;
-  return Math.min(90, Math.max(20, Math.round(Number(repetitions[1]) * 3.3)));
+
+  const name = String(exercise && exercise.name ? exercise.name : "").toLowerCase();
+  let secondsPerRep = 3.3;
+  if (/plank|wall sit|dead hang|hollow hold|static hold/.test(name)) {
+    return 40;
+  }
+  if (/burpee|jump|sprint|swing|snatch|clean|thruster|skater|mountain climber|high knees/.test(name)) {
+    secondsPerRep = 2.5;
+  } else if (/squat|lunge|deadlift|row|push[ -]?ups?|pull[ -]?ups?|press|dip|step[ -]?ups?|bench/.test(name)) {
+    secondsPerRep = 4.5;
+  }
+
+  return Math.min(90, Math.max(20, Math.round(Number(repetitions[1]) * secondsPerRep)));
 }
 
 function setCount(exercise) {
@@ -22,12 +34,20 @@ function restSeconds(exercise) {
   return Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
 }
 
-export function createWorkoutSession(day, now, sessionId) {
+export function createWorkoutSession(day, now, sessionId, exerciseCatalog) {
+  const catalog = exerciseCatalog || [];
   const exercises = (day.prescriptions || []).map(function (item) {
-    return { ...item };
+    const details = catalog.find(function (exercise) {
+      return exercise.id === item.exercise_id;
+    });
+    return {
+      ...item,
+      target_seconds: workSecondsFor(item.reps, details || item),
+    };
   });
+
   return {
-    version: 1,
+    version: 2,
     id: sessionId,
     dayId: day.id,
     dayName: day.name,
@@ -69,7 +89,7 @@ export function elapsedWorkoutSeconds(session, now) {
 function beginWork(session, startAt) {
   const exercise = session.exercises[session.exerciseIndex];
   session.phase = "work";
-  session.phaseEndsAt = startAt + workSecondsFor(exercise.reps) * 1000;
+  session.phaseEndsAt = startAt + (exercise.target_seconds || workSecondsFor(exercise.reps, exercise)) * 1000;
   session.restAfter = null;
 }
 
@@ -77,11 +97,7 @@ export function advanceExpiredSession(session, now) {
   const next = { ...session };
   let transitions = 0;
 
-  while (
-    next.phaseEndsAt !== null &&
-    next.phaseEndsAt <= now &&
-    transitions < 1000
-  ) {
+  while (next.phaseEndsAt !== null && next.phaseEndsAt <= now && transitions < 1000) {
     const boundary = next.phaseEndsAt;
     transitions += 1;
 
@@ -123,7 +139,7 @@ export function confirmCurrentSet(session, now) {
   const exercise = next.exercises[next.exerciseIndex];
   const exerciseId = exercise.exercise_id;
   const completedSets = (next.completedSetsByExercise[exerciseId] || 0) + 1;
-  const targetWorkSeconds = workSecondsFor(exercise.reps);
+  const targetWorkSeconds = exercise.target_seconds || workSecondsFor(exercise.reps, exercise);
   next.completedSetsByExercise[exerciseId] = completedSets;
   next.exerciseSeconds[exerciseId] =
     (next.exerciseSeconds[exerciseId] || 0) + targetWorkSeconds;
