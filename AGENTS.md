@@ -17,4 +17,4 @@ The landing and login pages share a small logo welcome animation in `public/js/i
 
 Unused shadcn/Radix starter components and their generator config are excluded because the shipped fitness interface is implemented in static HTML, CSS, and JavaScript; retain the TanStack shell and secure Coach Jiya endpoint that still support the deployed site.
 
-Guided workout sessions are timestamp-driven and recover from per-user browser storage; completed workouts continue to use the existing workout_logs table to avoid parallel session tables.
+Workout timers live within ordered exercise cards; timestamped per-user sessions recover across reloads and save completed results to existing workout_logs, avoiding duplicate session tables.

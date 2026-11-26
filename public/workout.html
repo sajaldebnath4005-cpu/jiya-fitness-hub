@@ -27,8 +27,8 @@
         <p class="small muted" id="planNotes"></p>
         <div class="day-strip" id="dayStrip"></div>
 
-        <div class="card stack">
-          <div class="row-between wrap">
+        <section class="workout-overview">
+          <div class="workout-overview-main">
             <div>
               <p class="stat-label">Selected day</p>
               <h2 id="dayName">-</h2>
@@ -42,11 +42,14 @@
             </div>
           </div>
           <div class="progress"><div class="progress-bar" id="dayBar" style="width: 0%"></div></div>
-          <div id="exerciseList"></div>
-          <button class="btn btn-primary btn-block" id="startWorkoutButton" type="button">
-            Start workout
-          </button>
-        </div>
+          <div class="workout-overview-footer">
+            <span id="exerciseStatus" class="small muted">Start with the first exercise when you’re ready.</span>
+            <span class="small muted">Elapsed <b id="workoutElapsed">00:00</b></span>
+          </div>
+        </section>
+
+        <div class="guided-exercise-list" id="exerciseList"></div>
+        <section class="completion-summary hidden" id="completionSummary" aria-live="polite"></section>
 
         <div class="section-title"><h2>Workout history</h2></div>
         <div class="card" id="historyList"></div>

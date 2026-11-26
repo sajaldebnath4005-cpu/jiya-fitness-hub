@@ -9,7 +9,7 @@ import { byId, requireLogin, renderNavigation } from "./main.js";
 
 // ---------- exercise details popup ----------
 
-export function openExerciseSheet(exercise, prescription, onComplete) {
+export function openExerciseSheet(exercise, prescription) {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
 
@@ -67,16 +67,6 @@ export function openExerciseSheet(exercise, prescription, onComplete) {
     exercise.met +
     "</b></div>" +
     "</div>" +
-    '<div class="exercise-timer stack">' +
-    '<p class="stat-label">Exercise timer</p>' +
-    '<div class="timer-display" id="exerciseTimer">00:00</div>' +
-    '<div class="timer-actions">' +
-    '<button class="btn btn-primary btn-small" id="timerStart" type="button">Start</button>' +
-    '<button class="btn btn-outline btn-small" id="timerPause" type="button" disabled>Pause</button>' +
-    '<button class="btn btn-outline btn-small hidden" id="timerResume" type="button">Resume</button>' +
-    '<button class="btn btn-ghost btn-small" id="timerReset" type="button">Reset</button>' +
-    "</div>" +
-    "</div>" +
     "<div><h3>How to do it</h3><ol class='small muted'>" +
     (instructions || "<li>Move slowly and keep control.</li>") +
     "</ol></div>" +
@@ -88,50 +78,9 @@ export function openExerciseSheet(exercise, prescription, onComplete) {
     ((exercise.secondary_muscles || []).length > 0
       ? "<p class='small muted'>Also works: " + exercise.secondary_muscles.join(", ") + "</p>"
       : "") +
-    '<button class="btn btn-primary btn-block" id="sheetDone">Complete Exercise</button>' +
     "</div>";
 
-  let elapsedSeconds = 0;
-  let startedAt = 0;
-  let timerId = null;
-
-  function drawTimer() {
-    const minutes = String(Math.floor(elapsedSeconds / 60)).padStart(2, "0");
-    const seconds = String(elapsedSeconds % 60).padStart(2, "0");
-    byId("exerciseTimer").textContent = minutes + ":" + seconds;
-  }
-
-  function startTimer() {
-    startedAt = Date.now() - elapsedSeconds * 1000;
-    timerId = window.setInterval(function () {
-      elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
-      drawTimer();
-    }, 250);
-    byId("timerStart").classList.add("hidden");
-    byId("timerResume").classList.add("hidden");
-    byId("timerPause").classList.remove("hidden");
-    byId("timerPause").disabled = false;
-  }
-
-  function pauseTimer() {
-    if (timerId) window.clearInterval(timerId);
-    timerId = null;
-    byId("timerPause").classList.add("hidden");
-    byId("timerResume").classList.remove("hidden");
-  }
-
-  function resetTimer() {
-    if (timerId) window.clearInterval(timerId);
-    timerId = null;
-    elapsedSeconds = 0;
-    drawTimer();
-    byId("timerStart").classList.remove("hidden");
-    byId("timerPause").classList.add("hidden");
-    byId("timerResume").classList.add("hidden");
-  }
-
   function close() {
-    if (timerId) window.clearInterval(timerId);
     overlay.remove();
   }
   overlay.addEventListener("click", function (event) {
@@ -139,14 +88,6 @@ export function openExerciseSheet(exercise, prescription, onComplete) {
   });
   document.body.appendChild(overlay);
   byId("sheetClose").addEventListener("click", close);
-  byId("timerStart").addEventListener("click", startTimer);
-  byId("timerPause").addEventListener("click", pauseTimer);
-  byId("timerResume").addEventListener("click", startTimer);
-  byId("timerReset").addEventListener("click", resetTimer);
-  byId("sheetDone").addEventListener("click", function () {
-    if (typeof onComplete === "function") onComplete(elapsedSeconds);
-    close();
-  });
 }
 
 // ---------- library page (only runs on exercises.html) ----------

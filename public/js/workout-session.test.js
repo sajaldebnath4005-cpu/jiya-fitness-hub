@@ -18,7 +18,9 @@ const day = {
 };
 
 test("repetition targets use a guided duration without claiming to verify repetitions", function () {
-  assert.equal(workSecondsFor("12 reps"), 40);
+  assert.equal(workSecondsFor("12 reps", { name: "Push Ups" }), 54);
+  assert.equal(workSecondsFor("12 reps", { name: "Burpees" }), 30);
+  assert.equal(workSecondsFor("12 reps", { name: "Bicep Curls" }), 40);
   assert.equal(workSecondsFor("25 seconds"), 25);
 });
 
@@ -27,10 +29,15 @@ test("an exercise is not complete until its set timer ends and the set is confir
   const ready = advanceExpiredSession(session, 10_000);
   const early = advanceExpiredSession(ready, 10_000 + workSecondsFor("6 reps") * 1000 - 1);
   assert.equal(early.completedExerciseIds.length, 0);
-  const timerEnded = advanceExpiredSession(early, 10_000 + workSecondsFor("6 reps") * 1000);
+  const timerEnded = advanceExpiredSession(early, 10_000 + workSecondsFor("6 reps", { name: "Row" }) * 1000);
   assert.equal(timerEnded.phase, "rep-confirm");
   assert.equal(timerEnded.completedExerciseIds.length, 0);
-  assert.equal(confirmCurrentSet(timerEnded, timerEnded.phaseEndsAt || 30_000).completedExerciseIds.length, 0);
+  const confirmed = confirmCurrentSet(timerEnded, 37_000);
+  assert.equal(confirmed.phase, "rest");
+  assert.equal(confirmed.completedExerciseIds.length, 0);
+  const nextSet = advanceExpiredSession(confirmed, 42_000);
+  assert.equal(nextSet.phase, "work");
+  assert.equal(nextSet.setIndex, 1);
 });
 
 test("progress counts completed exercises against the workout total", function () {
